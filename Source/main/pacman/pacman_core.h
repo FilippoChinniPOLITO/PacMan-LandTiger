@@ -14,6 +14,7 @@
 
 /* Constants Definitions */
 
+//General & Map
 #define SCREEN_HEIGTH	320
 #define SCREEN_WIDTH	240
 
@@ -25,13 +26,30 @@
 #define PADDING_LEFT	(SCREEN_WIDTH - (MAP_WIDTH * SCALE)) / 2
 #define PADDING_RIGHT	(SCREEN_WIDTH - (MAP_WIDTH * SCALE)) / 2
 
-#define MAP_START_Y		(SCREEN_HEIGTH - (MAP_HEIGTH * SCALE))
+#define PADDING_TOP		10
+#define PADDING_BOTTOM	10
 
-#define TIMER_AREA_START_X	(0 + PADDING_LEFT)
-#define SCORE_AREA_START_X	TIMER_AREA_START_X + ((SCREEN_WIDTH - (PADDING_LEFT + PADDING_RIGHT)) / 3)
-#define LIVES_AREA_START_X	SCORE_AREA_START_X + ((SCREEN_WIDTH - (PADDING_LEFT + PADDING_RIGHT)) / 3)
+#define MAP_START_X		(0 + PADDING_LEFT)
+#define MAP_START_Y		(SCREEN_HEIGTH - (MAP_HEIGTH * SCALE) - PADDING_BOTTOM)
 
-#define SECTIONS_PADDING	SCREEN_WIDTH / 10
+//Player GUI
+#define DELIMITER_PADDING	5
+
+#define PLAYER_GUI_LENGHT	(SCREEN_WIDTH - (PADDING_TOP + PADDING_BOTTOM + DELIMITER_PADDING + (MAP_HEIGTH * SCALE)))
+#define PLAYER_GUI_WIDTH	(SCREEN_WIDTH - (PADDING_LEFT + PADDING_RIGHT))
+
+#define PLAYER_GUI_START_X	(0 + PADDING_LEFT)
+#define PLAYER_GUI_START_Y	(0 + PADDING_TOP)
+
+#define TIMER_AREA_START_X	(PLAYER_GUI_START_X + 0)
+#define SCORE_AREA_START_X	(TIMER_AREA_START_X + (PLAYER_GUI_WIDTH / 3))
+#define LIVES_AREA_START_X	(SCORE_AREA_START_X + (PLAYER_GUI_WIDTH / 3))
+
+#define PLAYER_GUI_HEADER_Y	(PLAYER_GUI_START_Y + 0)
+
+#define TIMER_VALUE_START_Y	(PLAYER_GUI_HEADER_Y + 20)
+#define SCORE_VALUE_START_Y	(PLAYER_GUI_HEADER_Y + 20)
+#define LIVES_VALUE_START_Y	(PLAYER_GUI_HEADER_Y + 20)
 
 
 /* Type Definitions */
@@ -54,6 +72,12 @@ typedef struct {
 } Position;
 
 typedef struct {
+	Position curr_pos;
+	Position prev_pos;
+	unsigned char animation_frame;
+} Pacman;
+
+typedef struct {
 	unsigned char map_id;				// ID of Selected Game Map
 	unsigned char max_time;				// Start Time
     unsigned char start_lives;			// Number of Life at the start
@@ -70,46 +94,9 @@ typedef struct {
 	unsigned char lives;		// Current Lives of the Player
 	unsigned short score;		// Current Score of the Player
 	unsigned char pills_left;	// Number of Pills Left
-	Position pacman;			// Current PacMan Position	
+	Pacman pacman;				// PacMan Position and Attributes
+	unsigned char is_pause;		// State of the Game (if paused)
 } GameRunning;
-
-
-/* Maps */
-
-static const GameMap MAP_1 = 
-	{
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-		{1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
-        {1, 4, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 4, 1},
-        {1, 4, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 4, 1},
-        {1, 4, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 4, 1},
-        {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
-        {1, 4, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 4, 1},
-        {1, 4, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 4, 1},
-        {1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 1},
-        {1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-        {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3},
-        {1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1}, 
-        {1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
-        {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
-        {1, 4, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 4, 1},
-        {1, 4, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 4, 1},
-        {1, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 1},
-        {1, 1, 1, 4, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 4, 1, 1, 1},
-        {1, 1, 1, 4, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 4, 1, 1, 1},
-        {1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 1},
-        {1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1},
-        {1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1},
-        {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-	};
 
 
 /* (Public) Functions Prototypes */

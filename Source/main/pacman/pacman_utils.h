@@ -5,8 +5,7 @@
 /* System Imports */
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <string.h>
 
 
 /* User Imports */
@@ -16,13 +15,18 @@
 
 /* Constants Definitions */
 
-#define MAPS_FILE "./pacman_maps.txt"
+
+/* Global Variables */
+
+//GameMap map_1;
+//GameMap map_2;
+//GameMap map_3;
 
 
 /* (Public) Functions Prototypes */
 
-void parse_map_file(const char *filename, GameMap game_map, short id);
-	
+void get_game_map(GameMap* map_to_init, const short map_id);
+
 
 
 #endif //__PACMAN_UTILS_H
