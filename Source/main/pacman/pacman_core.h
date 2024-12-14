@@ -55,13 +55,21 @@
 /* Type Definitions */
 
 typedef enum {
-    EMPTY 		= 0,	// Empty Space
-    WALL 		= 1,	// Wall
-    TP_CELL_L 	= 2,	// Teleport Area Left
-	TP_CELL_R	= 3,	// Teleport Area Right
-    STD_PILL 	= 4,	// Pill
-    SPC_PILL 	= 5,	// Special Pill
-    PACMAN 		= 6		// PacMan
+	DIRECTION_STILL	= 0,
+	DIRECTION_RIGHT	= 1,
+	DIRECTION_LEFT	= 2,
+	DIRECTION_UP	= 3,
+	DIRECTION_DOWN	= 4
+} Direction;
+
+typedef enum {
+    CELL_EMPTY 		= 0,	// Empty Space
+    CELL_WALL 		= 1,	// Wall
+    CELL_TP_L 		= 2,	// Teleport Area Left
+	CELL_TP_R		= 3,	// Teleport Area Right
+    CELL_STD_PILL 	= 4,	// Pill
+    CELL_SPC_PILL 	= 5,	// Special Pill
+    CELL_PACMAN 	= 6		// PacMan
 } CellType;
 
 typedef uint8_t GameMap[MAP_HEIGTH][MAP_WIDTH];
@@ -74,6 +82,7 @@ typedef struct {
 typedef struct {
 	Position curr_pos;
 	Position prev_pos;
+	Direction direction;
 	unsigned char animation_frame;
 } Pacman;
 

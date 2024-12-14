@@ -26,6 +26,7 @@
 #define COL_GREEN	0x07e2
 #define COL_BLUE	0x00bf
 #define COL_PINK	0xfefb
+#define COL_ORANGE	0xfd43
 
 
 /* Type Definitions */
