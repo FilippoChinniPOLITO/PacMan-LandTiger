@@ -99,7 +99,10 @@ int main(void)
 	//enable_timer(0);
 	
 		//TIMER1
-	//init_timer(1, 0, 0, 3, 0x);
+	//init_timer(1, 0, 0, 3, 0x017D7840);		//1s
+	//init_timer(1, 0, 0, 3, 0x001D7840);		//test
+	init_timer(1, 0, 0, 3, 0x00017840);		//test
+	//init_timer(1, 0, 1, 3, 0x59682F00);	//60s
 	//enable_timer(1);
 	
 		//TIMER2
@@ -115,6 +118,7 @@ int main(void)
 	
 	//scrivere codice qui
 	init_game();
+	enable_timer(1);
 	
 	
 	
@@ -129,7 +133,11 @@ int main(void)
 	init_timer(0, 0, 0, 1, 0xC8);
 	enable_timer(0);
 	*/
-	
+		
+	//CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+	//DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+	//GUI_Text(TIMER_VALUE_START_X, TIMER_VALUE_START_Y, (uint8_t *) convert_int_to_string(DWT->CYCCNT % 1024), Blue, Green);
+
 	
 	/* </TEST TEST TEST> */	
 	

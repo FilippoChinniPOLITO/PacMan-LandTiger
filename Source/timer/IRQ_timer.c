@@ -11,6 +11,9 @@
 #include "timer.h"
 
 
+#include "../main/user_timer.h"
+
+
 /******************************************************************************
 ** Function name:		Timer0_IRQHandler
 **
@@ -53,7 +56,9 @@ void TIMER0_IRQHandler (void)
 void TIMER1_IRQHandler (void)
 {
 	if(LPC_TIM1->IR & 1) {		// MR0 
-		// your code
+		
+		interrupt_timer_1_update_time();
+		
 		LPC_TIM1->IR = 1;			//clear interrupt flag
 	}
 	else if(LPC_TIM1->IR & 2) {	// MR1

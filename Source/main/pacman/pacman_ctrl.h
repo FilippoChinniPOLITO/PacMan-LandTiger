@@ -22,6 +22,8 @@
 
 /* (Public) Functions Prototypes */
 
+void handle_time_update();
+
 
 
 #endif //__PACMAN_CTRL_H

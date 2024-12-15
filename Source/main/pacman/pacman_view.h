@@ -4,6 +4,9 @@
 
 /* System Imports */
 
+#include <stdio.h>
+#include <string.h>
+
 
 /* Hardware Imports */
 
@@ -36,7 +39,13 @@
 
 void draw_stat_area();
 void draw_game_map();
-void draw_move_pacman();
+void draw_stat_time(unsigned char time_value);
+void draw_stat_score(unsigned short score_value);
+void draw_stat_lives(unsigned char lives_value);
+void draw_screen_pause();
+void undraw_screen_pause();
+void draw_screen_victory();
+void draw_screen_game_over();
 
 
 

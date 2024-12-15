@@ -14,10 +14,14 @@
 
 /* Constants Definitions */
 
-//General & Map
+//General (Display Related)
 #define SCREEN_HEIGTH	320
 #define SCREEN_WIDTH	240
 
+#define SCREEN_CENTER_X	(SCREEN_WIDTH / 2)
+#define SCREEN_CENTER_Y	(SCREEN_HEIGTH / 2)
+
+//Game Map
 #define MAP_HEIGTH		31
 #define MAP_WIDTH		28
 
@@ -26,14 +30,14 @@
 #define PADDING_LEFT	(SCREEN_WIDTH - (MAP_WIDTH * SCALE)) / 2
 #define PADDING_RIGHT	(SCREEN_WIDTH - (MAP_WIDTH * SCALE)) / 2
 
-#define PADDING_TOP		10
-#define PADDING_BOTTOM	10
+#define PADDING_TOP		8
+#define PADDING_BOTTOM	8
 
 #define MAP_START_X		(0 + PADDING_LEFT)
 #define MAP_START_Y		(SCREEN_HEIGTH - (MAP_HEIGTH * SCALE) - PADDING_BOTTOM)
 
 //Player GUI
-#define DELIMITER_PADDING	5
+#define DELIMITER_PADDING	8
 
 #define PLAYER_GUI_LENGHT	(SCREEN_WIDTH - (PADDING_TOP + PADDING_BOTTOM + DELIMITER_PADDING + (MAP_HEIGTH * SCALE)))
 #define PLAYER_GUI_WIDTH	(SCREEN_WIDTH - (PADDING_LEFT + PADDING_RIGHT))
@@ -49,7 +53,11 @@
 
 #define TIMER_VALUE_START_Y	(PLAYER_GUI_HEADER_Y + 20)
 #define SCORE_VALUE_START_Y	(PLAYER_GUI_HEADER_Y + 20)
-#define LIVES_VALUE_START_Y	(PLAYER_GUI_HEADER_Y + 20)
+#define LIVES_VALUE_START_Y	(PLAYER_GUI_HEADER_Y + 24)
+
+#define TIMER_VALUE_START_X	(TIMER_AREA_START_X + 20)
+#define SCORE_VALUE_START_X	(SCORE_AREA_START_X + 16)
+#define LIVES_VALUE_START_X	(LIVES_AREA_START_X + 16)
 
 
 /* Type Definitions */
@@ -90,6 +98,7 @@ typedef struct {
 	unsigned char map_id;				// ID of Selected Game Map
 	unsigned char max_time;				// Start Time
     unsigned char start_lives;			// Number of Life at the start
+	unsigned char max_lives;			// Max Number of Lives
     unsigned short pts_to_life;			// Points to gain Extra Life
 	unsigned char std_pill_count;		// Number of Standard Pills
     unsigned char spc_pill_count;		// Number of Special Pills

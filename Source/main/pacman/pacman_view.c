@@ -25,23 +25,94 @@ void draw_circle(unsigned short x_start, unsigned short y_start, unsigned short 
 void draw_pacman_model(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color, Direction orientation, unsigned char animation_frame);
 void generic_fill_cell(Position pos, unsigned short color, unsigned char fill_style);
 void generic_fill_cell_with_reduction(Position pos, unsigned char reduction, unsigned short color, FillStyle fill_style);
+void generic_write(unsigned short x_start, unsigned short y_start, char* string, unsigned short color, unsigned short color_background);
+void write_centered(char* string, unsigned short color, unsigned short color_background, unsigned char is_full_width);
+void write_centered_set_y(unsigned short start_y, char* string, unsigned short color, unsigned short color_background, unsigned char is_full_width);
 unsigned short calc_abs_pos_x(unsigned char coordinate_x);
 unsigned short calc_abs_pos_y(unsigned char coordinate_y);
+char* convert_int_to_string(unsigned short value);
+char* convert_int_to_string_with_padding(unsigned short value, unsigned char padding);
+char* center_string_in_spaces(char* string);
+
+
+/* File-Scope Globale Variables */
+
+static char buffer[32];
 
 
 /* (Private) Constants Definitions */
 
+#define D_CELL_SIZE					(SCALE)
+#define D_CELL_OFFSET				(D_CELL_SIZE-1)
+
+#define CHAR_WIDTH_PIXELS			8
+#define CHAR_HEIGTH_PIXELS			16
+
+#define WRITING_VICTORY_START_X		(SCREEN_CENTER_X - 20)
+#define WRITING_VICTORY_START_Y		(SCREEN_CENTER_Y - 16)
+#define WRITING_GAME_OVER_START_X	(SCREEN_CENTER_X - 30)	
+#define WRITING_GAME_OVER_START_Y	(SCREEN_CENTER_Y - 8)
+#define WRITING_PAUSE_START_X		(SCREEN_CENTER_X - 10)
+#define WRITING_PAUSE_START_Y		(SCREEN_CENTER_Y - 16)
+
+#define WRITINGS_SCREEN_CENTER_Y	(SCREEN_CENTER_Y - (CHAR_HEIGTH_PIXELS / 2))
+
 
 /* Function Implementations */
 
+void draw_screen_pause() {
+	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y - CHAR_HEIGTH_PIXELS, " ", COL_BLUE, COL_WHITE, 1);
+	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y, "PAUSE", COL_BLUE, COL_WHITE, 1);
+	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y + CHAR_HEIGTH_PIXELS, " ", COL_BLUE, COL_WHITE, 1);
+}
+
+void undraw_screen_pause() {
+	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y - CHAR_HEIGTH_PIXELS, " ", COL_BLACK, COL_BLACK, 1);
+	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y, " ", COL_BLACK, COL_BLACK, 1);
+	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y + CHAR_HEIGTH_PIXELS, " ", COL_BLACK, COL_BLACK, 1);
+}
+
+void draw_screen_victory() {
+	LCD_Clear(COL_BLACK);
+	write_centered("VICTORY!!!", COL_GREEN, COL_BLACK, 0);
+}
+
+void draw_screen_game_over() {
+	LCD_Clear(COL_BLACK);
+	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y - CHAR_HEIGTH_PIXELS, "G A M E", COL_RED, COL_BLACK, 0);
+	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y, " ", COL_RED, COL_BLACK, 0);
+	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y + CHAR_HEIGTH_PIXELS, "O V E R", COL_RED, COL_BLACK, 0);
+}
+
 void draw_stat_area() {
-	GUI_Text(TIMER_AREA_START_X, PLAYER_GUI_HEADER_Y, (uint8_t*) "  TIME ", COL_WHITE, COL_BLACK);
-	GUI_Text(SCORE_AREA_START_X, PLAYER_GUI_HEADER_Y, (uint8_t*) "   SCORE ", COL_WHITE, COL_BLACK);
-	GUI_Text(LIVES_AREA_START_X, PLAYER_GUI_HEADER_Y, (uint8_t*) "   LIVES ", COL_WHITE, COL_BLACK);
+	generic_write(TIMER_AREA_START_X+16, PLAYER_GUI_HEADER_Y, "TIME", COL_WHITE, COL_BLACK);
+	generic_write(SCORE_AREA_START_X+16, PLAYER_GUI_HEADER_Y, "SCORE", COL_WHITE, COL_BLACK);
+	generic_write(LIVES_AREA_START_X+16, PLAYER_GUI_HEADER_Y, "LIVES", COL_WHITE, COL_BLACK);
 	
-	GUI_Text(TIMER_AREA_START_X, TIMER_VALUE_START_Y, (uint8_t*) "   59 ", COL_WHITE, COL_BLACK);
-	GUI_Text(SCORE_AREA_START_X, SCORE_VALUE_START_Y, (uint8_t*) "   1350 ", COL_WHITE, COL_BLACK);
-	GUI_Text(LIVES_AREA_START_X, LIVES_VALUE_START_Y, (uint8_t*) "   O O O", COL_WHITE, COL_BLACK);
+	draw_stat_time(game_run.time);
+	draw_stat_score(game_run.score);
+	draw_stat_lives(game_run.lives);
+}
+
+void draw_stat_time(unsigned char time_value) {
+	generic_write(TIMER_VALUE_START_X, TIMER_VALUE_START_Y, convert_int_to_string_with_padding(time_value, 2), COL_WHITE, COL_BLACK);
+}
+
+void draw_stat_score(unsigned short score_value) {
+	generic_write(SCORE_VALUE_START_X, SCORE_VALUE_START_Y, convert_int_to_string_with_padding(score_value, 4), COL_WHITE, COL_BLACK);
+}
+
+void draw_stat_lives(unsigned char lives_value) {
+	const unsigned char PADDING_LIVES = D_CELL_SIZE / 2;
+	unsigned char i;
+	for(i=0; i < GAME_CONFIG.max_lives; i++) {
+		unsigned short temp = ((D_CELL_SIZE + PADDING_LIVES) * i);
+		
+		if(i < lives_value)
+			draw_pacman_model(LIVES_VALUE_START_X + temp, LIVES_VALUE_START_Y, LIVES_VALUE_START_X + temp + D_CELL_OFFSET, LIVES_VALUE_START_Y + D_CELL_OFFSET, COL_YELLOW, DIRECTION_RIGHT, 0);
+		else
+			draw_full_line(LIVES_VALUE_START_X + temp, LIVES_VALUE_START_Y, LIVES_VALUE_START_X + temp + D_CELL_OFFSET, LIVES_VALUE_START_Y + D_CELL_OFFSET, COL_BLACK);
+	}
 }
 
 void draw_game_map() {
@@ -58,7 +129,6 @@ void draw_game_map() {
 		}
 	}
 }
-
 
 void draw_cell(CellType cell_type, Position cell_pos) {
 	switch(cell_type) {
@@ -122,8 +192,8 @@ void generic_fill_cell_with_reduction(Position pos, unsigned char reduction, uns
 	x_display_start = calc_abs_pos_x(pos.x) + reduction;
 	y_display_start = calc_abs_pos_y(pos.y) + reduction;
 	
-	x_display_end = x_display_start + (SCALE-1) - (reduction*2);
-	y_display_end = y_display_start + (SCALE-1) - (reduction*2);
+	x_display_end = x_display_start + D_CELL_OFFSET - (reduction*2);
+	y_display_end = y_display_start + D_CELL_OFFSET - (reduction*2);
 	
 	switch(fill_style) {
 		case(STYLE_FULL):
@@ -175,7 +245,6 @@ void draw_circle(unsigned short x_start, unsigned short y_start, unsigned short 
 		LCD_DrawLine(x_start+i, (y_start + radius - i), x_end-i, (y_start + radius - i), color);
 		LCD_DrawLine(x_start+i, (y_start + radius + i + is_even), x_end-i, (y_start + radius + i + is_even), color);
 	}
-
 }
 
 void draw_pacman_model(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color, Direction orientation, unsigned char animation_frame) {
@@ -279,19 +348,81 @@ void draw_pacman_model(unsigned short x_start, unsigned short y_start, unsigned 
 			}
 			break;
 	}
-	
+}
 
+void generic_write(unsigned short x_start, unsigned short y_start, char* string, unsigned short color, unsigned short color_background) {
+	GUI_Text(x_start, y_start, (uint8_t*) string, color, color_background);
+}
+
+void write_centered(char* string, unsigned short color, unsigned short color_background, unsigned char is_full_width) {
+	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y, string, color, color_background, is_full_width);
+}
+
+void write_centered_set_y(unsigned short start_y, char* string, unsigned short color, unsigned short color_background, unsigned char is_full_width) {
+	if(is_full_width) {
+		generic_write(0, start_y, center_string_in_spaces(string), color, color_background);
+	}
+	else {
+		const unsigned short calculated_left_padding = ((SCREEN_WIDTH / CHAR_WIDTH_PIXELS) - strlen(string)) / 2;
+		const unsigned short calculated_start_x = (calculated_left_padding + (strlen(string) % 2)) * CHAR_WIDTH_PIXELS;
+		generic_write(calculated_start_x, start_y, string, color, color_background);
+	}
 }
 
 unsigned short calc_abs_pos_x(unsigned char coordinate_x) {
-	return MAP_START_X + (coordinate_x * SCALE);
+	return MAP_START_X + (coordinate_x * D_CELL_SIZE);
 }
 
 unsigned short calc_abs_pos_y(unsigned char coordinate_y) {
-	return MAP_START_Y + (coordinate_y * SCALE);
+	return MAP_START_Y + (coordinate_y * D_CELL_SIZE);
 }
 
+char* convert_int_to_string(unsigned short value) {
+	memset(buffer, 0, sizeof(&buffer));
+	sprintf(buffer, "%d", value);
+	return buffer;
+}
 
+char* convert_int_to_string_with_padding(unsigned short value, unsigned char padding) {
+	unsigned char index;
+	unsigned char i;
+	
+	convert_int_to_string(value);
+	
+	index = strlen(buffer);
+	for(i=0; i < padding; i++)
+		buffer[index+i] = ' ';
+	
+	buffer[index+i] = '\0';
+	return buffer;
+}
+
+char* center_string_in_spaces(char* string) {
+	const unsigned short STR_LEN = strlen(string);
+	const unsigned short TOT_STR_PADDING = (SCREEN_WIDTH / 8) - STR_LEN;
+	const unsigned short LEFT_STR_PADDING = TOT_STR_PADDING / 2;
+	const unsigned short RIGHT_STR_PADDING = TOT_STR_PADDING - LEFT_STR_PADDING;
+	const unsigned char is_odd = STR_LEN % 2;
+	unsigned char len;
+	unsigned char i;
+	
+	memset(buffer, 0, sizeof(&buffer));
+	
+	for(i=0; i < (LEFT_STR_PADDING + is_odd); i++) {
+		buffer[i] = ' ';
+	}
+	buffer[i] = '\0';
+	
+	strcat(buffer, string);
+	len = strlen(buffer);
+	
+	for(i=len; i < (len + RIGHT_STR_PADDING - is_odd); i++) {
+		buffer[i] = ' ';
+	}
+	buffer[i] = '\0';
+	
+	return buffer;
+}
 
 
 

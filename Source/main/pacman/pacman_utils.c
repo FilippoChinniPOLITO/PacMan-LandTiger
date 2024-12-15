@@ -139,8 +139,6 @@ void copy_map(GameMap* dest, GameMap* source) {
 
 
 
-
-
 /*
 void parse_map_file(const char *filename, GameMap game_map, short id) {
     FILE *file = fopen(filename, "r");
