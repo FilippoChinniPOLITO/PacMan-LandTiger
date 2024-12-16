@@ -30,6 +30,7 @@
 #define COL_BLUE	0x00bf
 #define COL_PINK	0xfefb
 #define COL_ORANGE	0xfd43
+#define COL_LIME	0xbfec
 
 
 /* Type Definitions */
@@ -46,6 +47,8 @@ void draw_screen_pause();
 void undraw_screen_pause();
 void draw_screen_victory();
 void draw_screen_game_over();
+void draw_screen_fail();
+void draw_cell(CellType cell_type, Position pos);
 
 
 

@@ -137,6 +137,62 @@ void copy_map(GameMap* dest, GameMap* source) {
 	memcpy(dest, source, sizeof(GameMap));	
 }
 
+Position get_pacman_spawn(const short map_id) {
+	switch(map_id) {
+	case(1):	
+		return (Position) {.y=14, .x=14};
+	case(2):
+		return (Position) {.y=14, .x=14};	//TODO: find real
+	case(3):
+		return (Position) {.y=14, .x=14};	//TODO: find real
+	default:
+		return (Position) {.y=14, .x=14};
+	}
+}
+
+void toggle_timer( uint8_t timer_num ) {
+	if ( timer_num == 0 )
+	{
+		LPC_TIM0->TCR = !LPC_TIM0->TCR;
+	}
+	else if (timer_num == 1)
+	{
+		LPC_TIM1->TCR = !LPC_TIM1->TCR;
+	}
+	else if (timer_num == 2)
+	{
+		LPC_TIM2->TCR = !LPC_TIM2->TCR;
+	}
+	else //if (timer_num == 3)
+	{
+		LPC_TIM3->TCR = !LPC_TIM3->TCR;
+	}
+	return;
+}
+
+unsigned int get_timer_value(uint8_t timer_num) {
+	if ( timer_num == 0 )
+	{
+		return LPC_TIM0->TC;
+	}
+	else if (timer_num == 1)
+	{
+		return LPC_TIM1->TC;
+	}
+	else if (timer_num == 2)
+	{
+		return LPC_TIM2->TC;
+	}
+	else //if (timer_num == 3)
+	{
+		return LPC_TIM3->TC;
+	}
+}
+
+unsigned int get_RIT_value() {
+	return LPC_RIT->RICOUNTER;
+}
+
 
 
 /*

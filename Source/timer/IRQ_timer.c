@@ -89,7 +89,9 @@ void TIMER1_IRQHandler (void)
 void TIMER2_IRQHandler (void)
 {
 	if(LPC_TIM2->IR & 1) {		// MR0 
-		// your code
+		
+		interrupt_timer_2_next_tick();
+		
 		LPC_TIM2->IR = 1;			//clear interrupt flag
 	}
 	else if(LPC_TIM2->IR & 2){	// MR1
@@ -120,7 +122,9 @@ void TIMER2_IRQHandler (void)
 void TIMER3_IRQHandler (void)
 {
 	if(LPC_TIM3->IR & 1) {		// MR0 
-		// your code
+		
+		interrupt_timer_3_spc_pill_gen();
+		
 		LPC_TIM3->IR = 1;			//clear interrupt flag
 	}
 	else if(LPC_TIM3->IR & 2){	// MR1

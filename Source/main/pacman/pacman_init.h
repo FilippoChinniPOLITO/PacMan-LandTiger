@@ -11,8 +11,7 @@
 /* User Imports */
 
 #include "pacman_core.h"
-#include "pacman_utils.h"
-#include "pacman_view.h"
+#include "pacman_ctrl.h"
 
 
 /* Constants Definitions */

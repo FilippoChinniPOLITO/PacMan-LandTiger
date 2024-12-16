@@ -3,9 +3,6 @@
 
 /* (Private) Function Prototypes */
 
-void init_level();
-void init_game_view();
-
 
 /* (Private) Constants Definitions */
 
@@ -17,21 +14,7 @@ void init_game() {
 	game_run.score = 0;
 	game_run.is_pause = 1;
 	
-	init_level();
-	init_game_view();
+	handle_level_init(1);
 }
-
-void init_level() {
-	game_run.pills_left = GAME_CONFIG.std_pill_count;
-	game_run.time = GAME_CONFIG.max_time;
-	
-	get_game_map(&game_run.game_map, GAME_CONFIG.map_id);
-}
-
-void init_game_view() {
-	draw_game_map();
-	draw_stat_area();
-}
-
 
 

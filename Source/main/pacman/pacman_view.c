@@ -13,7 +13,6 @@ typedef enum {
 
 /* (Private) Function Prototypes */
 
-void draw_cell(CellType cell_type, Position pos);
 void draw_empty(Position pos);
 void draw_wall(Position pos);
 void draw_standard_pill(Position pos);
@@ -82,6 +81,12 @@ void draw_screen_game_over() {
 	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y - CHAR_HEIGTH_PIXELS, "G A M E", COL_RED, COL_BLACK, 0);
 	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y, " ", COL_RED, COL_BLACK, 0);
 	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y + CHAR_HEIGTH_PIXELS, "O V E R", COL_RED, COL_BLACK, 0);
+}
+
+void draw_screen_fail() {
+	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y - CHAR_HEIGTH_PIXELS, "FAIL!", COL_ORANGE, COL_WHITE, 1);
+	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y, "-1 Life", COL_ORANGE, COL_WHITE, 1);
+	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y + CHAR_HEIGTH_PIXELS, "Press PAUSE to Continue...", COL_ORANGE, COL_WHITE, 1);
 }
 
 void draw_stat_area() {
@@ -172,7 +177,7 @@ void draw_standard_pill(Position pos) {
 }
 
 void draw_special_pill(Position pos) {
-	generic_fill_cell_with_reduction(pos, 2, COL_ORANGE, STYLE_CIRCLE);
+	generic_fill_cell_with_reduction(pos, 1, COL_LIME, STYLE_CIRCLE);
 }
 
 void draw_pacman(Position pos) {
@@ -289,7 +294,7 @@ void draw_pacman_model(unsigned short x_start, unsigned short y_start, unsigned 
 			else if(animation_frame == 1) {
 				LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color);
 				LCD_DrawLine(x_start+1, y_start+1, x_end-0, y_start+1, color);
-				LCD_SetPoint(x_start+2, y_start+1, COL_BLACK);
+				LCD_SetPoint(x_start+4, y_start+1, COL_BLACK);
 				LCD_DrawLine(x_start+2, y_start+2, x_end-0, y_start+2, color);
 				LCD_DrawLine(x_start+3, y_start+3, x_end-0, y_start+3, color);
 				LCD_DrawLine(x_start+2, y_start+4, x_end-0, y_start+4, color);

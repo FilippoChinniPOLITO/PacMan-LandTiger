@@ -107,13 +107,14 @@ typedef struct {
 } GameConfig;
 
 typedef struct {
-	GameMap game_map;			// Game Map
-	unsigned char time;			// Current Time left
-	unsigned char lives;		// Current Lives of the Player
-	unsigned short score;		// Current Score of the Player
-	unsigned char pills_left;	// Number of Pills Left
-	Pacman pacman;				// PacMan Position and Attributes
-	unsigned char is_pause;		// State of the Game (if paused)
+	GameMap game_map;				// Game Map
+	unsigned char time;				// Current Time left
+	unsigned char lives;			// Current Lives of the Player
+	unsigned short score;			// Current Score of the Player
+	unsigned char pills_left;		// Number of Pills Left
+	Pacman pacman;					// PacMan Position and Attributes
+	unsigned char is_pause;			// State of the Game (if paused)
+	unsigned char spc_pills_gen;	// Number of Special Pills Generated
 } GameRunning;
 
 

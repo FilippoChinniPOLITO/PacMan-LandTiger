@@ -53,7 +53,9 @@ void RIT_IRQHandler(void)
 		if((LPC_GPIO2->FIOPIN & (1<<10)) == 0){
 			switch(down_0) {
 				case 2:
-					// your code here
+					
+					interrupt_button_INT0_pause();
+				
 					break;
 				case long_press_count_1:
 					// your code here (for long press)
@@ -122,7 +124,9 @@ void RIT_IRQHandler(void)
 		J_up++;
 		switch(J_up){
 			case 1:
-				// your code here
+				
+				interrupt_joystick_direction_update_up();
+			
 				break;
 			case long_press_count_1:
 				// your code here (for long press)
@@ -143,7 +147,9 @@ void RIT_IRQHandler(void)
 		J_down++;
 		switch(J_down){
 			case 1:
-				// your code here
+				
+				interrupt_joystick_direction_update_down();
+			
 				break;
 			case long_press_count_1:
 				// your code here (for long press)
@@ -164,7 +170,9 @@ void RIT_IRQHandler(void)
 		J_right++;
 		switch(J_right){
 			case 1:
-				// your code here
+				
+				interrupt_joystick_direction_update_right();
+			
 				break;
 			case long_press_count_1:
 				// your code here (for long press)
@@ -185,7 +193,9 @@ void RIT_IRQHandler(void)
 		J_left++;
 		switch(J_left){
 			case 1:
-				// your code here
+				
+				interrupt_joystick_direction_update_left();
+			
 				break;
 			case long_press_count_1:
 				// your code here (for long press)

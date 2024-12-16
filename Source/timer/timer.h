@@ -19,6 +19,8 @@ extern void enable_timer( uint8_t timer_num );
 extern void disable_timer( uint8_t timer_num );
 extern void reset_timer( uint8_t timer_num );
 
+extern void toogle_timer( uint8_t timer_num );	//Added by me
+
 /* IRQ_timer.c */
 extern void TIMER0_IRQHandler (void);
 extern void TIMER1_IRQHandler (void);

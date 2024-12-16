@@ -26,6 +26,10 @@
 /* (Public) Functions Prototypes */
 
 void get_game_map(GameMap* map_to_init, const short map_id);
+Position get_pacman_spawn(const short map_id);
+void toggle_timer(uint8_t timer_num);
+unsigned int get_timer_value (uint8_t timer_num);
+unsigned int get_RIT_value();
 
 
 

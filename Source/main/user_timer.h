@@ -6,6 +6,8 @@
 
 
 void interrupt_timer_1_update_time();
+void interrupt_timer_2_next_tick();
+void interrupt_timer_3_spc_pill_gen();
 
 
 
