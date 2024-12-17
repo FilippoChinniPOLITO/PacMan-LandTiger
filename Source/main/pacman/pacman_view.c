@@ -47,13 +47,6 @@ static char buffer[32];
 #define CHAR_WIDTH_PIXELS			8
 #define CHAR_HEIGTH_PIXELS			16
 
-#define WRITING_VICTORY_START_X		(SCREEN_CENTER_X - 20)
-#define WRITING_VICTORY_START_Y		(SCREEN_CENTER_Y - 16)
-#define WRITING_GAME_OVER_START_X	(SCREEN_CENTER_X - 30)	
-#define WRITING_GAME_OVER_START_Y	(SCREEN_CENTER_Y - 8)
-#define WRITING_PAUSE_START_X		(SCREEN_CENTER_X - 10)
-#define WRITING_PAUSE_START_Y		(SCREEN_CENTER_Y - 16)
-
 #define WRITINGS_SCREEN_CENTER_Y	(SCREEN_CENTER_Y - (CHAR_HEIGTH_PIXELS / 2))
 
 
@@ -150,6 +143,7 @@ void draw_cell(CellType cell_type, Position cell_pos) {
 			draw_empty(cell_pos);
 			break;
 		case CELL_STD_PILL:
+			draw_empty(cell_pos); 	//This is to fix the "Lingering Spc Pill Bug"; it is bad, but is the easiest fix
 			draw_standard_pill(cell_pos);
 			break;
 		case CELL_SPC_PILL:

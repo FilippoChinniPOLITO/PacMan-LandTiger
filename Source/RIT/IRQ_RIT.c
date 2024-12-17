@@ -232,7 +232,7 @@ void RIT_IRQHandler(void)
 	
 	/////////////////////////////////////
 
-	ADC_start_conversion();		/* ADC */ 
+	//ADC_start_conversion();		/* ADC */ 
 	
 	// end ADC
 	

@@ -23,12 +23,13 @@ void toggle_timers();
 /* Function Implementations */
 
 void handle_level_init(unsigned short is_first_init) {
+	game_status.spc_pills_gen = 0;
 	game_run.pills_left = GAME_CONFIG.std_pill_count;
-	game_run.spc_pills_gen = 0;
 	game_run.time = GAME_CONFIG.max_time;
 	
 	get_game_map(&game_run.game_map, GAME_CONFIG.map_id);
 	game_run.pacman.direction = DIRECTION_STILL;
+	game_run.pacman.prev_pos = game_run.pacman.curr_pos; //TESTETSTESTETSTETSTSTESTE é PROVA
 	game_run.pacman.curr_pos = get_pacman_spawn(GAME_CONFIG.map_id);
 	
 	//draw_game_map();
@@ -40,7 +41,6 @@ void handle_level_init(unsigned short is_first_init) {
 	}
 	else {
 		draw_stat_time(game_run.time);
-		draw_cell(CELL_EMPTY, game_run.pacman.curr_pos);
 	}
 }
 
@@ -60,7 +60,8 @@ void handle_fail() {
 	}
 	
 	toggle_timers();
-	game_run.is_pause = 1;
+	game_status.is_pause = 1;
+	draw_cell(CELL_EMPTY, game_run.pacman.curr_pos);
 	draw_screen_fail();
 	
 	game_run.lives--;
@@ -69,6 +70,7 @@ void handle_fail() {
 }
 
 void handle_game_over() {
+	game_status.is_gameover = 1;
 	toggle_timers();
 	draw_screen_game_over();
 }
@@ -81,7 +83,11 @@ void handle_victory() {
 }
 
 void handle_pause() {
-	game_run.is_pause = !game_run.is_pause;
+	if (game_status.is_gameover) {
+		return;
+	}
+	
+	game_status.is_pause = !game_status.is_pause;
 	
 	toggle_timers();
 	
@@ -89,7 +95,7 @@ void handle_pause() {
 }
 
 void handle_draw_pause() {
-	if(game_run.is_pause) {
+	if(game_status.is_pause) {
 		draw_screen_pause();
 	}
 	else {
@@ -213,25 +219,17 @@ void update_pacman_animation() {
 
 void handle_special_pill_generation() {
 	const unsigned char PROBABILITY_TRESHOLD = 60;	//60%
-	static int count_enter;//TETSETSTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-	static int count_gen;//TETSETSTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-	count_gen++;//TETSETSTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-	draw_stat_score(count_gen);//TETSETSTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-	draw_stat_time(count_enter);//TETSETSTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTSSSSSSSSSSSSSSSSSSSSSSSSSSSS
 	
 	unsigned char temp = (get_timer_value(1) ^ get_timer_value(2) ^ get_RIT_value()) % 101;
-	
-	if((temp > PROBABILITY_TRESHOLD) || (game_run.spc_pills_gen >= GAME_CONFIG.spc_pill_count)) {
+	if((temp > PROBABILITY_TRESHOLD) || (game_status.spc_pills_gen >= GAME_CONFIG.spc_pill_count)) {
 		return;
 	}
-	
-	count_enter++; //TETSETSTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTSSSSSSSSSSSSSSSSSSSSSSSSSSSS
 	
 	Position rand_pos = generate_random_position();
 	if(game_run.game_map[rand_pos.y][rand_pos.x] == CELL_STD_PILL) {
 		game_run.game_map[rand_pos.y][rand_pos.x] = CELL_SPC_PILL;
 		handle_pill_transformation(rand_pos);
-		game_run.spc_pills_gen++;
+		game_status.spc_pills_gen++;
 	}
 }
 
@@ -240,7 +238,7 @@ void handle_pill_transformation(Position pos) {
 }
 
 Position generate_random_position() {
-	srand(get_timer_value(3) ^ get_timer_value(3) ^ get_RIT_value() ^ 1103515245);
+	srand(get_timer_value(1) ^ get_timer_value(2) ^ get_RIT_value() ^ 1103515245);
 	return (Position) {.y = (rand() % MAP_HEIGTH), .x = (rand() % MAP_WIDTH)};
 }
 

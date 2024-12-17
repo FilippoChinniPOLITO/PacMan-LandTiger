@@ -100,7 +100,8 @@ int main(void)
 	
 		//TIMER1
 	init_timer(1, 0, 0, 3, 0x017D7840);		//1s
-	//init_timer(1, 0, 0, 3, 0x00017840);		//test
+	//init_timer(1, 0, 0, 3, 0x00017840);		//test simulator
+	//init_timer(1, 0, 0, 3, 0x0017D784);		//test board
 	//init_timer(1, 0, 1, 3, 0x59682F00);	//60s
 	//enable_timer(1);
 	

@@ -20,6 +20,8 @@ const GameConfig GAME_CONFIG = {
 
 GameRunning game_run;
 
+GameStatus game_status;
+
 
 /* Function Implementations */
 

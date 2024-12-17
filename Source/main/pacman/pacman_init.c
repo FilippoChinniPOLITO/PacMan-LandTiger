@@ -12,7 +12,7 @@
 void init_game() {
 	game_run.lives = GAME_CONFIG.start_lives;
 	game_run.score = 0;
-	game_run.is_pause = 1;
+	game_status.is_pause = 1;
 	
 	handle_level_init(1);
 }

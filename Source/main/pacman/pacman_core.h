@@ -113,9 +113,14 @@ typedef struct {
 	unsigned short score;			// Current Score of the Player
 	unsigned char pills_left;		// Number of Pills Left
 	Pacman pacman;					// PacMan Position and Attributes
-	unsigned char is_pause;			// State of the Game (if paused)
-	unsigned char spc_pills_gen;	// Number of Special Pills Generated
 } GameRunning;
+
+typedef struct {
+	unsigned char is_pause;			// State of the Game Pause
+	unsigned char is_fail;			// State of the Game Fail
+	unsigned char is_gameover;		// State of the Game GameOver
+	unsigned char spc_pills_gen;	// Number of Special Pills Generated
+} GameStatus;
 
 
 /* (Public) Functions Prototypes */
@@ -125,6 +130,7 @@ typedef struct {
 
 extern const GameConfig GAME_CONFIG;
 extern GameRunning game_run;
+extern GameStatus game_status;
 
 
 
