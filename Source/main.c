@@ -20,6 +20,16 @@
  *                                                                                                                                                                                                                                                                                                   
  *                                                                                                                                                       
  */
+ 
+ /**
+  *
+  * Politecnico di Torino - A.A. 2024/2025
+  * 
+  * Architetture dei Sistemi di Eleborazione - ExtraPoint 1
+  *
+  * Filippo Chinni Carella - S345011
+  *
+  */
 
 
 	/* System Defines */
@@ -28,7 +38,9 @@
 
 #ifdef SIMULATOR
 extern uint8_t ScaleFlag; // <- ScaleFlag needs to visible in order for the emulator to find the symbol (can be placed also inside system_LPC17xx.h but since it is RO, it needs more work)
-const int is_simulator = 1;
+const unsigned char IS_SIMULATOR = 1;
+#else
+const unsigned char IS_SIMULATOR = 0;
 #endif
 
 
@@ -36,15 +48,17 @@ const int is_simulator = 1;
 
 #include "GLCD/GLCD.h" 
 //#include "TouchPanel/TouchPanel.h"
-#include "led/led.h"
+//#include "led/led.h"
 #include "timer/timer.h"
 
 
 	/* User Imports */
 
 #include "main/pacman/pacman_init.h"
-	
-	
+
+
+
+	/* Main function */
 
 int main(void)
 {
@@ -64,8 +78,10 @@ int main(void)
 		TouchPanel_Calibrate();
 	*/
 	
+	/*
 	// Led
 	LED_init();
+	*/
 	
 	// Buttons
 	BUTTON_init();
@@ -83,7 +99,7 @@ int main(void)
 	
 	/*
 	// ADC
-	//ADC_init();
+	ADC_init();
 	*/
 	
 	/* Area Timers */
@@ -99,48 +115,33 @@ int main(void)
 	//enable_timer(0);
 	
 		//TIMER1
-	init_timer(1, 0, 0, 3, 0x017D7840);		//1s
+	init_timer(1, 0, 0, 3, 0x017D7840);			//1s
 	//init_timer(1, 0, 0, 3, 0x00017840);		//test simulator
 	//init_timer(1, 0, 0, 3, 0x0017D784);		//test board
-	//init_timer(1, 0, 1, 3, 0x59682F00);	//60s
 	//enable_timer(1);
 	
 		//TIMER2
-	init_timer(2, 0, 0, 3, 0x00225510);		//0.09s
+	if(!IS_SIMULATOR)
+		init_timer(2, 0, 0, 3, 0x00319750);		//0.13s
+	else
+		init_timer(2, 0, 0, 3, 0x00225510);		//0.09s		
 	//enable_timer(2);
 	
 		//TIMER3
-	init_timer(3, 0, 0, 3, 0x010B0760);		//0.7s
+	init_timer(3, 0, 0, 3, 0x010B0760);			//0.7s
 	//enable_timer(3);
 	
+	// Timers are enabled after the first un-pause
 	
-	/* Area Code */
 	
-	//scrivere codice qui
+	/* Area Program Code */
+	
 	init_game();
-	//enable_timer(1);
-	//enable_timer(2);
-	//enable_timer(3); //enabling avviene dopo la prima pause
 
 	
 	
 	/* <TEST TEST TEST> */
-	
-	/*
-	GUI_Text(50, 280, (uint8_t *) "  TEST TEST TEST  ", Blue, Green);
-	LCD_DrawLine(0, 0, 200, 200, White);
-	LED_Out(0b00110011); //Test LED
-	
-	//Quando si usa il touch bisogna utilizzare un Timer per gestire il Refresh. Il count in questo caso è il t di refresh
-	init_timer(0, 0, 0, 1, 0xC8);
-	enable_timer(0);
-	*/
-		
-	//CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
-	//DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
-	//GUI_Text(TIMER_VALUE_START_X, TIMER_VALUE_START_Y, (uint8_t *) convert_int_to_string(DWT->CYCCNT % 1024), Blue, Green);
 
-	
 	/* </TEST TEST TEST> */	
 	
 	

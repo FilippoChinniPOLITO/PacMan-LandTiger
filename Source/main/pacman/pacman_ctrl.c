@@ -7,11 +7,11 @@ void handle_fail();
 void handle_game_over();
 void handle_draw_pause();
 void handle_pacman_update(Pacman* pacman, Position next_pos, unsigned char* prev_cell, unsigned char* next_cell, unsigned char is_collision);
+void update_pacman_animation();
 Position calculate_next_position(Pacman pacman);
 unsigned char handle_tp(Position* pos, Direction direction);
 void handle_score_update(CellType pill_type);
 void handle_lives_update();
-void update_pacman_animation();
 Position generate_random_position();
 void handle_pill_transformation(Position pos);
 void toggle_timers();
@@ -29,10 +29,8 @@ void handle_level_init(unsigned short is_first_init) {
 	
 	get_game_map(&game_run.game_map, GAME_CONFIG.map_id);
 	game_run.pacman.direction = DIRECTION_STILL;
-	game_run.pacman.prev_pos = game_run.pacman.curr_pos; //TESTETSTESTETSTETSTSTESTE é PROVA
+	game_run.pacman.prev_pos = game_run.pacman.curr_pos;
 	game_run.pacman.curr_pos = get_pacman_spawn(GAME_CONFIG.map_id);
-	
-	//draw_game_map();
 	
 	if(is_first_init) {
 		draw_game_map();
@@ -60,7 +58,8 @@ void handle_fail() {
 	}
 	
 	toggle_timers();
-	game_status.is_pause = 1;
+	
+	game_status.is_fail = 1;
 	draw_cell(CELL_EMPTY, game_run.pacman.curr_pos);
 	draw_screen_fail();
 	
@@ -70,27 +69,34 @@ void handle_fail() {
 }
 
 void handle_game_over() {
-	game_status.is_gameover = 1;
+	game_status.is_end = 1;
 	toggle_timers();
 	draw_screen_game_over();
 }
 
 void handle_victory() {
 	if(game_run.pills_left == 0) {
+		game_status.is_end = 1;
 		toggle_timers();
 		draw_screen_victory();
 	}
 }
 
 void handle_pause() {
-	if (game_status.is_gameover) {
+	if(game_status.is_end) {
 		return;
 	}
 	
-	game_status.is_pause = !game_status.is_pause;
-	
 	toggle_timers();
 	
+	if(game_status.is_fail) {
+		game_status.is_fail = 0;
+		undraw_screen_pause();
+		draw_game_map();
+		return;
+	}		
+
+	game_status.is_pause = !game_status.is_pause;
 	handle_draw_pause();
 }
 
@@ -100,7 +106,7 @@ void handle_draw_pause() {
 	}
 	else {
 		undraw_screen_pause();
-		draw_game_map();
+		redraw_after_pause();
 	}
 }
 
@@ -144,6 +150,11 @@ void handle_pacman_update(Pacman* pacman, Position next_pos, unsigned char* prev
 	
 	draw_cell(*prev_cell, pacman->prev_pos);
 	draw_cell(CELL_PACMAN, pacman->curr_pos);
+}
+
+void update_pacman_animation() {
+	if(++game_run.pacman.animation_frame > 3)
+		game_run.pacman.animation_frame = 0;
 }
 
 Position calculate_next_position(Pacman pacman) {
@@ -211,10 +222,6 @@ void handle_lives_update() {
 		}
 	}
 	draw_stat_lives(game_run.lives);
-}
-
-void update_pacman_animation() {
-	game_run.pacman.animation_frame = !game_run.pacman.animation_frame;
 }
 
 void handle_special_pill_generation() {

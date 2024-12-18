@@ -8,7 +8,7 @@
 //	DIRECTION_LEFT	= 2,
 //	DIRECTION_UP	= 3,
 //	DIRECTION_DOWN	= 4
-//THIS IS BAD, but there are not good solutions without duplication of the Direction enum
+//THIS IS BAD, but there are not better solutions without duplication of the Direction enum
 
 void interrupt_joystick_direction_update_up() {
 	handle_direction_change(3);

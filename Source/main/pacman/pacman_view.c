@@ -13,6 +13,7 @@ typedef enum {
 
 /* (Private) Function Prototypes */
 
+void draw_game_map_portion(unsigned char portion_start, unsigned char portion_end);
 void draw_empty(Position pos);
 void draw_wall(Position pos);
 void draw_standard_pill(Position pos);
@@ -48,6 +49,9 @@ static char buffer[32];
 #define CHAR_HEIGTH_PIXELS			16
 
 #define WRITINGS_SCREEN_CENTER_Y	(SCREEN_CENTER_Y - (CHAR_HEIGTH_PIXELS / 2))
+
+#define PAUSE_WRITING_START_Y		9
+#define PAUSE_WRITING_END_Y			15
 
 
 /* Function Implementations */
@@ -114,12 +118,21 @@ void draw_stat_lives(unsigned char lives_value) {
 }
 
 void draw_game_map() {
+	draw_game_map_portion(0, MAP_HEIGTH);
+}
+
+void redraw_after_pause() {
+	//This presumes that the PAUSE screen will be placed over the Map and will start and end at that exact coordinates
+	draw_game_map_portion(PAUSE_WRITING_START_Y, PAUSE_WRITING_END_Y);
+}
+
+void draw_game_map_portion(unsigned char portion_start, unsigned char portion_end) {
 	unsigned char i;
 	unsigned char j;
 	CellType temp;
 	Position temp_pos;
 	
-	for(i=0; i < MAP_HEIGTH; i++) {
+	for(i=portion_start; i < portion_end; i++) {
 		for(j=0; j < MAP_WIDTH; j++) {
 			temp = (CellType) game_run.game_map[i][j];
 			temp_pos = (Position) {.x = j, .y = i};
@@ -249,6 +262,8 @@ void draw_circle(unsigned short x_start, unsigned short y_start, unsigned short 
 void draw_pacman_model(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color, Direction orientation, unsigned char animation_frame) {
 	// Expects the Input to form a 7*7 Square
 	// I tried drawing PacMan procedurally, but it is too difficult
+	
+	animation_frame = (animation_frame >= 2);	//A Frame lasts 2 Ticks (to make the animation more visible, expecially on physical board)
 	
 	switch(orientation) {
 		case(DIRECTION_STILL):

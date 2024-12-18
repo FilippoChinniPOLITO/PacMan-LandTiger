@@ -441,11 +441,6 @@
               <FilePath>.\Source\main\pacman\pacman_utils.c</FilePath>
             </File>
             <File>
-              <FileName>pacman_maps.txt</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\main\pacman\pacman_maps.txt</FilePath>
-            </File>
-            <File>
               <FileName>pacman_ctrl.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Source\main\pacman\pacman_ctrl.h</FilePath>
@@ -1227,11 +1222,6 @@
               <FileName>pacman_utils.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\main\pacman\pacman_utils.c</FilePath>
-            </File>
-            <File>
-              <FileName>pacman_maps.txt</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\main\pacman\pacman_maps.txt</FilePath>
             </File>
             <File>
               <FileName>pacman_ctrl.h</FileName>

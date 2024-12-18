@@ -9,8 +9,6 @@
 
 /* User Imports */
 
-//
-
 
 /* Constants Definitions */
 
@@ -95,7 +93,7 @@ typedef struct {
 } Pacman;
 
 typedef struct {
-	unsigned char map_id;				// ID of Selected Game Map
+	unsigned char map_id;				// ID of selected Game Map
 	unsigned char max_time;				// Start Time
     unsigned char start_lives;			// Number of Life at the start
 	unsigned char max_lives;			// Max Number of Lives
@@ -118,7 +116,7 @@ typedef struct {
 typedef struct {
 	unsigned char is_pause;			// State of the Game Pause
 	unsigned char is_fail;			// State of the Game Fail
-	unsigned char is_gameover;		// State of the Game GameOver
+	unsigned char is_end;			// State of the Game Gameover or Victory
 	unsigned char spc_pills_gen;	// Number of Special Pills Generated
 } GameStatus;
 

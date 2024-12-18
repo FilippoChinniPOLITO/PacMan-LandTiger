@@ -139,18 +139,18 @@ void copy_map(GameMap* dest, GameMap* source) {
 
 Position get_pacman_spawn(const short map_id) {
 	switch(map_id) {
-	case(1):	
-		return (Position) {.y=14, .x=14};
-	case(2):
-		return (Position) {.y=14, .x=14};	//TODO: find real
-	case(3):
-		return (Position) {.y=14, .x=14};	//TODO: find real
-	default:
-		return (Position) {.y=14, .x=14};
-	}
+		case(1):	
+			return (Position) {.y=14, .x=14};
+		case(2):
+			return (Position) {.y=14, .x=14};	//TODO: find real
+		case(3):
+			return (Position) {.y=14, .x=14};	//TODO: find real
+		default:
+			return (Position) {.y=14, .x=14};
+		}
 }
 
-void toggle_timer( uint8_t timer_num ) {
+void toggle_timer(uint8_t timer_num) {
 	if ( timer_num == 0 )
 	{
 		LPC_TIM0->TCR = !LPC_TIM0->TCR;

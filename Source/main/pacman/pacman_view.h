@@ -45,6 +45,7 @@ void draw_stat_score(unsigned short score_value);
 void draw_stat_lives(unsigned char lives_value);
 void draw_screen_pause();
 void undraw_screen_pause();
+void redraw_after_pause();
 void draw_screen_victory();
 void draw_screen_game_over();
 void draw_screen_fail();
