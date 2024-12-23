@@ -62,6 +62,9 @@ int main(void)
 	// System
 	SystemInit();
 	
+	// CAN
+	CAN_Init();
+	
 	// Display
 	LCD_Initialization();
 	LCD_Clear(Black);

@@ -401,19 +401,14 @@
               <FilePath>.\Source\main.c</FilePath>
             </File>
             <File>
-              <FileName>user_RIT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\main\user_RIT.c</FilePath>
-            </File>
-            <File>
               <FileName>user_RIT.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Source\main\user_RIT.h</FilePath>
             </File>
             <File>
-              <FileName>user_timer.c</FileName>
+              <FileName>user_RIT.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\main\user_timer.c</FilePath>
+              <FilePath>.\Source\main\user_RIT.c</FilePath>
             </File>
             <File>
               <FileName>user_timer.h</FileName>
@@ -421,9 +416,9 @@
               <FilePath>.\Source\main\user_timer.h</FilePath>
             </File>
             <File>
-              <FileName>pacman_core.c</FileName>
+              <FileName>user_timer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\main\pacman\pacman_core.c</FilePath>
+              <FilePath>.\Source\main\user_timer.c</FilePath>
             </File>
             <File>
               <FileName>pacman_core.h</FileName>
@@ -431,24 +426,9 @@
               <FilePath>.\Source\main\pacman\pacman_core.h</FilePath>
             </File>
             <File>
-              <FileName>pacman_utils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\main\pacman\pacman_utils.h</FilePath>
-            </File>
-            <File>
-              <FileName>pacman_utils.c</FileName>
+              <FileName>pacman_core.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\main\pacman\pacman_utils.c</FilePath>
-            </File>
-            <File>
-              <FileName>pacman_ctrl.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\main\pacman\pacman_ctrl.h</FilePath>
-            </File>
-            <File>
-              <FileName>pacman_ctrl.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\main\pacman\pacman_ctrl.c</FilePath>
+              <FilePath>.\Source\main\pacman\pacman_core.c</FilePath>
             </File>
             <File>
               <FileName>pacman_init.h</FileName>
@@ -461,6 +441,16 @@
               <FilePath>.\Source\main\pacman\pacman_init.c</FilePath>
             </File>
             <File>
+              <FileName>pacman_ctrl.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\pacman\pacman_ctrl.h</FilePath>
+            </File>
+            <File>
+              <FileName>pacman_ctrl.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\pacman\pacman_ctrl.c</FilePath>
+            </File>
+            <File>
               <FileName>pacman_view.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Source\main\pacman\pacman_view.h</FilePath>
@@ -470,15 +460,25 @@
               <FileType>1</FileType>
               <FilePath>.\Source\main\pacman\pacman_view.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>lib_SoC_board</GroupName>
-          <Files>
             <File>
-              <FileName>system_LPC17xx.c</FileName>
+              <FileName>pacman_utils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\pacman\pacman_utils.h</FilePath>
+            </File>
+            <File>
+              <FileName>pacman_utils.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\system_LPC17xx.c</FilePath>
+              <FilePath>.\Source\main\pacman\pacman_utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_CAN.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\user_CAN.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_CAN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\user_CAN.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -486,9 +486,9 @@
           <GroupName>timer</GroupName>
           <Files>
             <File>
-              <FileName>IRQ_timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\timer\IRQ_timer.c</FilePath>
+              <FileName>timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\timer\timer.h</FilePath>
             </File>
             <File>
               <FileName>lib_timer.c</FileName>
@@ -496,9 +496,69 @@
               <FilePath>.\Source\timer\lib_timer.c</FilePath>
             </File>
             <File>
-              <FileName>timer.h</FileName>
+              <FileName>IRQ_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\timer\IRQ_timer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>RIT</GroupName>
+          <Files>
+            <File>
+              <FileName>RIT.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\timer\timer.h</FilePath>
+              <FilePath>.\Source\RIT\RIT.h</FilePath>
+            </File>
+            <File>
+              <FileName>lib_RIT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\RIT\lib_RIT.c</FilePath>
+            </File>
+            <File>
+              <FileName>IRQ_RIT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\RIT\IRQ_RIT.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>joystick</GroupName>
+          <Files>
+            <File>
+              <FileName>joystick.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\joystick\joystick.h</FilePath>
+            </File>
+            <File>
+              <FileName>lib_joystick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\joystick\lib_joystick.c</FilePath>
+            </File>
+            <File>
+              <FileName>funct_joystick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\joystick\funct_joystick.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>button_EXINT</GroupName>
+          <Files>
+            <File>
+              <FileName>button.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\button_EXINT\button.h</FilePath>
+            </File>
+            <File>
+              <FileName>lib_button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\button_EXINT\lib_button.c</FilePath>
+            </File>
+            <File>
+              <FileName>IRQ_button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\button_EXINT\IRQ_button.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -506,14 +566,9 @@
           <GroupName>GLCD</GroupName>
           <Files>
             <File>
-              <FileName>AsciiLib.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\GLCD\AsciiLib.c</FilePath>
-            </File>
-            <File>
-              <FileName>AsciiLib.h</FileName>
+              <FileName>GLCD.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\GLCD\AsciiLib.h</FilePath>
+              <FilePath>.\Source\GLCD\GLCD.h</FilePath>
             </File>
             <File>
               <FileName>GLCD.c</FileName>
@@ -572,19 +627,54 @@
               </FileOption>
             </File>
             <File>
-              <FileName>GLCD.h</FileName>
+              <FileName>AsciiLib.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\GLCD\GLCD.h</FilePath>
+              <FilePath>.\Source\GLCD\AsciiLib.h</FilePath>
+            </File>
+            <File>
+              <FileName>AsciiLib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\GLCD\AsciiLib.c</FilePath>
+            </File>
+            <File>
+              <FileName>HzLib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\GLCD\HzLib.h</FilePath>
             </File>
             <File>
               <FileName>HzLib.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\GLCD\HzLib.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>CAN</GroupName>
+          <Files>
             <File>
-              <FileName>HzLib.h</FileName>
+              <FileName>CAN.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\GLCD\HzLib.h</FilePath>
+              <FilePath>.\Source\CAN\CAN.h</FilePath>
+            </File>
+            <File>
+              <FileName>lib_CAN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\CAN\lib_CAN.c</FilePath>
+            </File>
+            <File>
+              <FileName>IRQ_CAN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\CAN\IRQ_CAN.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>lib_SoC_board</GroupName>
+          <Files>
+            <File>
+              <FileName>system_LPC17xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\system_LPC17xx.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -615,66 +705,6 @@
               <FileName>mpu_armv7.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Source\CMSIS_core\mpu_armv7.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>button_EXINT</GroupName>
-          <Files>
-            <File>
-              <FileName>button.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\button_EXINT\button.h</FilePath>
-            </File>
-            <File>
-              <FileName>IRQ_button.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\button_EXINT\IRQ_button.c</FilePath>
-            </File>
-            <File>
-              <FileName>lib_button.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\button_EXINT\lib_button.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>RIT</GroupName>
-          <Files>
-            <File>
-              <FileName>IRQ_RIT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\RIT\IRQ_RIT.c</FilePath>
-            </File>
-            <File>
-              <FileName>lib_RIT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\RIT\lib_RIT.c</FilePath>
-            </File>
-            <File>
-              <FileName>RIT.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\RIT\RIT.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>joystick</GroupName>
-          <Files>
-            <File>
-              <FileName>funct_joystick.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\joystick\funct_joystick.c</FilePath>
-            </File>
-            <File>
-              <FileName>joystick.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\joystick\joystick.h</FilePath>
-            </File>
-            <File>
-              <FileName>lib_joystick.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\joystick\lib_joystick.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1078,19 +1108,14 @@
               <FilePath>.\Source\main.c</FilePath>
             </File>
             <File>
-              <FileName>user_RIT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\main\user_RIT.c</FilePath>
-            </File>
-            <File>
               <FileName>user_RIT.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Source\main\user_RIT.h</FilePath>
             </File>
             <File>
-              <FileName>user_timer.c</FileName>
+              <FileName>user_RIT.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\main\user_timer.c</FilePath>
+              <FilePath>.\Source\main\user_RIT.c</FilePath>
             </File>
             <File>
               <FileName>user_timer.h</FileName>
@@ -1098,9 +1123,9 @@
               <FilePath>.\Source\main\user_timer.h</FilePath>
             </File>
             <File>
-              <FileName>pacman_core.c</FileName>
+              <FileName>user_timer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\main\pacman\pacman_core.c</FilePath>
+              <FilePath>.\Source\main\user_timer.c</FilePath>
             </File>
             <File>
               <FileName>pacman_core.h</FileName>
@@ -1108,24 +1133,9 @@
               <FilePath>.\Source\main\pacman\pacman_core.h</FilePath>
             </File>
             <File>
-              <FileName>pacman_utils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\main\pacman\pacman_utils.h</FilePath>
-            </File>
-            <File>
-              <FileName>pacman_utils.c</FileName>
+              <FileName>pacman_core.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\main\pacman\pacman_utils.c</FilePath>
-            </File>
-            <File>
-              <FileName>pacman_ctrl.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\main\pacman\pacman_ctrl.h</FilePath>
-            </File>
-            <File>
-              <FileName>pacman_ctrl.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\main\pacman\pacman_ctrl.c</FilePath>
+              <FilePath>.\Source\main\pacman\pacman_core.c</FilePath>
             </File>
             <File>
               <FileName>pacman_init.h</FileName>
@@ -1138,6 +1148,16 @@
               <FilePath>.\Source\main\pacman\pacman_init.c</FilePath>
             </File>
             <File>
+              <FileName>pacman_ctrl.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\pacman\pacman_ctrl.h</FilePath>
+            </File>
+            <File>
+              <FileName>pacman_ctrl.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\pacman\pacman_ctrl.c</FilePath>
+            </File>
+            <File>
               <FileName>pacman_view.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Source\main\pacman\pacman_view.h</FilePath>
@@ -1146,6 +1166,161 @@
               <FileName>pacman_view.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\main\pacman\pacman_view.c</FilePath>
+            </File>
+            <File>
+              <FileName>pacman_utils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\pacman\pacman_utils.h</FilePath>
+            </File>
+            <File>
+              <FileName>pacman_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\pacman\pacman_utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_CAN.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\user_CAN.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_CAN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\user_CAN.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>timer</GroupName>
+          <Files>
+            <File>
+              <FileName>timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\timer\timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>lib_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\timer\lib_timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>IRQ_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\timer\IRQ_timer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>RIT</GroupName>
+          <Files>
+            <File>
+              <FileName>RIT.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\RIT\RIT.h</FilePath>
+            </File>
+            <File>
+              <FileName>lib_RIT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\RIT\lib_RIT.c</FilePath>
+            </File>
+            <File>
+              <FileName>IRQ_RIT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\RIT\IRQ_RIT.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>joystick</GroupName>
+          <Files>
+            <File>
+              <FileName>joystick.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\joystick\joystick.h</FilePath>
+            </File>
+            <File>
+              <FileName>lib_joystick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\joystick\lib_joystick.c</FilePath>
+            </File>
+            <File>
+              <FileName>funct_joystick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\joystick\funct_joystick.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>button_EXINT</GroupName>
+          <Files>
+            <File>
+              <FileName>button.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\button_EXINT\button.h</FilePath>
+            </File>
+            <File>
+              <FileName>lib_button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\button_EXINT\lib_button.c</FilePath>
+            </File>
+            <File>
+              <FileName>IRQ_button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\button_EXINT\IRQ_button.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>GLCD</GroupName>
+          <Files>
+            <File>
+              <FileName>GLCD.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\GLCD\GLCD.h</FilePath>
+            </File>
+            <File>
+              <FileName>GLCD.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\GLCD\GLCD.c</FilePath>
+            </File>
+            <File>
+              <FileName>AsciiLib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\GLCD\AsciiLib.h</FilePath>
+            </File>
+            <File>
+              <FileName>AsciiLib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\GLCD\AsciiLib.c</FilePath>
+            </File>
+            <File>
+              <FileName>HzLib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\GLCD\HzLib.h</FilePath>
+            </File>
+            <File>
+              <FileName>HzLib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\GLCD\HzLib.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>CAN</GroupName>
+          <Files>
+            <File>
+              <FileName>CAN.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\CAN\CAN.h</FilePath>
+            </File>
+            <File>
+              <FileName>lib_CAN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\CAN\lib_CAN.c</FilePath>
+            </File>
+            <File>
+              <FileName>IRQ_CAN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\CAN\IRQ_CAN.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1156,61 +1331,6 @@
               <FileName>system_LPC17xx.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\system_LPC17xx.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>timer</GroupName>
-          <Files>
-            <File>
-              <FileName>IRQ_timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\timer\IRQ_timer.c</FilePath>
-            </File>
-            <File>
-              <FileName>lib_timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\timer\lib_timer.c</FilePath>
-            </File>
-            <File>
-              <FileName>timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\timer\timer.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>GLCD</GroupName>
-          <Files>
-            <File>
-              <FileName>AsciiLib.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\GLCD\AsciiLib.c</FilePath>
-            </File>
-            <File>
-              <FileName>AsciiLib.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\GLCD\AsciiLib.h</FilePath>
-            </File>
-            <File>
-              <FileName>GLCD.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\GLCD\GLCD.c</FilePath>
-            </File>
-            <File>
-              <FileName>GLCD.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\GLCD\GLCD.h</FilePath>
-            </File>
-            <File>
-              <FileName>HzLib.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\GLCD\HzLib.c</FilePath>
-            </File>
-            <File>
-              <FileName>HzLib.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\GLCD\HzLib.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1241,66 +1361,6 @@
               <FileName>mpu_armv7.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Source\CMSIS_core\mpu_armv7.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>button_EXINT</GroupName>
-          <Files>
-            <File>
-              <FileName>button.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\button_EXINT\button.h</FilePath>
-            </File>
-            <File>
-              <FileName>IRQ_button.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\button_EXINT\IRQ_button.c</FilePath>
-            </File>
-            <File>
-              <FileName>lib_button.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\button_EXINT\lib_button.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>RIT</GroupName>
-          <Files>
-            <File>
-              <FileName>IRQ_RIT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\RIT\IRQ_RIT.c</FilePath>
-            </File>
-            <File>
-              <FileName>lib_RIT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\RIT\lib_RIT.c</FilePath>
-            </File>
-            <File>
-              <FileName>RIT.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\RIT\RIT.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>joystick</GroupName>
-          <Files>
-            <File>
-              <FileName>funct_joystick.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\joystick\funct_joystick.c</FilePath>
-            </File>
-            <File>
-              <FileName>joystick.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\joystick\joystick.h</FilePath>
-            </File>
-            <File>
-              <FileName>lib_joystick.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\joystick\lib_joystick.c</FilePath>
             </File>
           </Files>
         </Group>

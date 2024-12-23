@@ -15,6 +15,10 @@ void handle_lives_update();
 Position generate_random_position();
 void handle_pill_transformation(Position pos);
 void toggle_timers();
+void handle_draw_stat_time(unsigned char time_value);
+void handle_draw_stat_score(unsigned short score_value);
+void handle_draw_stat_lives(unsigned char lives_value);
+void handle_CAN_send();
 
 
 /* (Private) Constants Definitions */
@@ -38,13 +42,13 @@ void handle_level_init(unsigned short is_first_init) {
 		handle_draw_pause();
 	}
 	else {
-		draw_stat_time(game_run.time);
+		handle_draw_stat_time(game_run.time);
 	}
 }
 
 void handle_time_update() {
 	game_run.time--;
-	draw_stat_time(game_run.time);
+	handle_draw_stat_time(game_run.time);
 	
 	if(game_run.time == 0) {
 		handle_fail();
@@ -210,7 +214,7 @@ void handle_score_update(CellType pill_type) {
 		game_run.pills_left--;
 	}
 	
-	draw_stat_score(game_run.score);
+	handle_draw_stat_score(game_run.score);
 }
 
 void handle_lives_update() {
@@ -221,7 +225,8 @@ void handle_lives_update() {
 			game_run.lives++;
 		}
 	}
-	draw_stat_lives(game_run.lives);
+	
+	handle_draw_stat_lives(game_run.lives);
 }
 
 void handle_special_pill_generation() {
@@ -253,6 +258,46 @@ void toggle_timers() {
 	toggle_timer(2);
 	toggle_timer(1);
 	toggle_timer(3);
+}
+
+void handle_draw_stat_time(unsigned char time_value) {
+	if(IS_SIMULATOR) {	// No CAN in Simulator
+		draw_stat_time(time_value);
+	}
+	else {
+		handle_CAN_send();
+	}
+}
+
+void handle_draw_stat_score(unsigned short score_value) {
+	if(IS_SIMULATOR) {	// No CAN in Simulator
+		draw_stat_score(score_value);
+	}
+	else {
+		handle_CAN_send();
+	}
+}
+void handle_draw_stat_lives(unsigned char lives_value) {
+	if(IS_SIMULATOR) {	// No CAN in Simulator
+		draw_stat_lives(lives_value);
+	}
+	else {
+		handle_CAN_send();
+	}
+}
+
+void handle_CAN_send() {
+	CAN_TxMsg.data[0] = game_run.time;
+	CAN_TxMsg.data[1] = game_run.lives;
+	CAN_TxMsg.data[2] = (game_run.score & 0xFF00) >> 8;
+	CAN_TxMsg.data[3] = game_run.score & 0xFF;
+	
+	CAN_TxMsg.len = 4;
+	CAN_TxMsg.id = 2;
+	CAN_TxMsg.format = STANDARD_FORMAT;
+	CAN_TxMsg.type = DATA_FRAME;
+	
+	CAN_wrMsg(1, &CAN_TxMsg);
 }
 
 

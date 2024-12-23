@@ -9,6 +9,8 @@
 
 /* Hardware Imports */
 
+#include "../CAN/CAN.h"
+
 
 /* User Imports */
 
