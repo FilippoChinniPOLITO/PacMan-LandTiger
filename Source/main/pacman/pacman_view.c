@@ -35,7 +35,7 @@ char* convert_int_to_string_with_padding(unsigned short value, unsigned char pad
 char* center_string_in_spaces(char* string);
 
 
-/* File-Scope Globale Variables */
+/* File-Scope Global Variables */
 
 static char buffer[32];
 

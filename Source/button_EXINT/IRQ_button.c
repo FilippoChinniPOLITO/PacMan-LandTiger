@@ -2,10 +2,6 @@
 #include "LPC17xx.h"
 
 
-#include "../led/led.h"
-#include "../timer/timer.h"
-
-
 	/* Variabili Globali Gestione De-Bouncing */
 	
 extern int down_0;

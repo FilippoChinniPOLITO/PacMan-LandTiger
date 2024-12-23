@@ -7,7 +7,7 @@
 /* Global Variables and Costants Definitions */
 
 const GameConfig GAME_CONFIG = {
-	.map_id = 1,
+	.map_id = 2,
 	.max_time = 60,
 	.start_lives = 1,
 	.max_lives = 5,

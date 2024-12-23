@@ -12,27 +12,34 @@
 
 /* Constants Definitions */
 
-//General (Display Related)
-#define SCREEN_HEIGTH	320
-#define SCREEN_WIDTH	240
+//General (System)
+#ifdef SIMULATOR
+#define IS_SIMULATOR		1
+#else
+#define IS_SIMULATOR		0
+#endif
 
-#define SCREEN_CENTER_X	(SCREEN_WIDTH / 2)
-#define SCREEN_CENTER_Y	(SCREEN_HEIGTH / 2)
+//General (Display Related)
+#define SCREEN_HEIGTH		320
+#define SCREEN_WIDTH		240
+
+#define SCREEN_CENTER_X		(SCREEN_WIDTH / 2)
+#define SCREEN_CENTER_Y		(SCREEN_HEIGTH / 2)
 
 //Game Map
-#define MAP_HEIGTH		31
-#define MAP_WIDTH		28
+#define MAP_HEIGTH			31
+#define MAP_WIDTH			28
 
-#define SCALE			8
+#define SCALE				8
 
-#define PADDING_LEFT	(SCREEN_WIDTH - (MAP_WIDTH * SCALE)) / 2
-#define PADDING_RIGHT	(SCREEN_WIDTH - (MAP_WIDTH * SCALE)) / 2
+#define PADDING_LEFT		(SCREEN_WIDTH - (MAP_WIDTH * SCALE)) / 2
+#define PADDING_RIGHT		(SCREEN_WIDTH - (MAP_WIDTH * SCALE)) / 2
 
-#define PADDING_TOP		8
-#define PADDING_BOTTOM	8
+#define PADDING_TOP			8
+#define PADDING_BOTTOM		8
 
-#define MAP_START_X		(0 + PADDING_LEFT)
-#define MAP_START_Y		(SCREEN_HEIGTH - (MAP_HEIGTH * SCALE) - PADDING_BOTTOM)
+#define MAP_START_X			(0 + PADDING_LEFT)
+#define MAP_START_Y			(SCREEN_HEIGTH - (MAP_HEIGTH * SCALE) - PADDING_BOTTOM)
 
 //Player GUI
 #define DELIMITER_PADDING	8
