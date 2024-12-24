@@ -26,7 +26,9 @@
 void TIMER0_IRQHandler (void)
 {
 	if(LPC_TIM0->IR & 1) {		// MR0 
-		// your code
+		
+		interrupt_timer_0_next_tick();
+		
 		LPC_TIM0->IR = 1;			//clear interrupt flag
 	}
 	else if(LPC_TIM0->IR & 2){	// MR1
@@ -57,7 +59,7 @@ void TIMER1_IRQHandler (void)
 {
 	if(LPC_TIM1->IR & 1) {		// MR0 
 		
-		interrupt_timer_1_update_time();
+		interrupt_timer_1_move_blinky();
 		
 		LPC_TIM1->IR = 1;			//clear interrupt flag
 	}
@@ -90,7 +92,7 @@ void TIMER2_IRQHandler (void)
 {
 	if(LPC_TIM2->IR & 1) {		// MR0 
 		
-		interrupt_timer_2_next_tick();
+		interrupt_timer_2_play_sound();
 		
 		LPC_TIM2->IR = 1;			//clear interrupt flag
 	}
@@ -123,7 +125,7 @@ void TIMER3_IRQHandler (void)
 {
 	if(LPC_TIM3->IR & 1) {		// MR0 
 		
-		interrupt_timer_3_spc_pill_gen();
+		interrupt_timer_3_play_sound_duration();
 		
 		LPC_TIM3->IR = 1;			//clear interrupt flag
 	}

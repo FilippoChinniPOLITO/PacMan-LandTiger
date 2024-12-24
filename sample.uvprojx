@@ -471,6 +471,16 @@
               <FilePath>.\Source\main\pacman\pacman_utils.c</FilePath>
             </File>
             <File>
+              <FileName>pacman_sound.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\pacman\pacman_sound.h</FilePath>
+            </File>
+            <File>
+              <FileName>pacman_sound.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\pacman\pacman_sound.c</FilePath>
+            </File>
+            <File>
               <FileName>user_CAN.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Source\main\user_CAN.h</FilePath>
@@ -1176,6 +1186,16 @@
               <FileName>pacman_utils.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\main\pacman\pacman_utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>pacman_sound.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\pacman\pacman_sound.h</FilePath>
+            </File>
+            <File>
+              <FileName>pacman_sound.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\pacman\pacman_sound.c</FilePath>
             </File>
             <File>
               <FileName>user_CAN.h</FileName>

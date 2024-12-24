@@ -92,7 +92,8 @@ int main(void)
 	
 	//init_timer(timer_num, Prescaler, MatchReg, SRImatchReg, TimerInterval);
 
-	init_game_timers();
+
+	// Timers are Initilized during the Game
 	
 	
 	/* Area Program Code */

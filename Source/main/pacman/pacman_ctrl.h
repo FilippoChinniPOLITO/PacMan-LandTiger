@@ -30,10 +30,8 @@
 
 void handle_level_init(unsigned short is_first_init);
 void handle_pause();
-void handle_time_update();
-void handle_next_tick();
 void handle_direction_change(Direction new_direction);
-void handle_special_pill_generation();
+void handle_next_tick();
 
 
 

@@ -18,6 +18,13 @@
 #else
 #define IS_SIMULATOR		0
 #endif
+#define SYSTEM_FREQUENCY	25000000
+
+//General (Game Optimization)
+#define PACMAN_SPEED		5				// This #define is for Optimization Purposes
+#define TICK_SECOND_RATIO	PACMAN_SPEED
+#define TICK_DURATION		(1.0f / TICK_SECOND_RATIO)
+#define TICK_SPEED_CONV		(TICK_DURATION / TICK_SECOND_RATIO)
 
 //General (Display Related)
 #define SCREEN_HEIGTH		320
@@ -109,7 +116,21 @@ typedef struct {
     unsigned char spc_pill_count;		// Number of Special Pills
 	unsigned short std_pill_value;		// Score Points of a Standard Pill
 	unsigned short spc_pill_value;		// Score Points of a Special Pill
+	unsigned char pacman_speed;			// Pacman movement speed
+	unsigned char blinky_min_speed;		// Blinky start movement speed
+	unsigned char blinky_max_speed;		// Blinky max (final) movement speed
+	unsigned char spc_pill_gen_ratio;	// Generation Ratio of Special Pills (in Ticks)
+	unsigned char blinky_respawn_time;	// Blinky Respawn Time (in Seconds)
+	unsigned char blinky_blue_time;		// Blinky Vulnerability Time (in Seconds)
 } GameConfig;
+
+typedef struct {
+	unsigned int pacman_speed_timer_count;		// Timer count value to set Pacman Speed
+	unsigned int blinky_speed_timer_count;		// Timer count value to set Blinky Speed
+	unsigned short blinky_respawn_ticks;		// Blinky Respawn Time (in Ticks)
+	unsigned short blinky_blue_ticks;			// Blinky Vulnerability Time (in Ticks)
+	unsigned short blinky_accel_interval_ticks;	// Blinky Acceleration Interval Step Time (in Ticks)
+} GameTimings;
 
 typedef struct {
 	GameMap game_map;				// Game Map
@@ -125,15 +146,24 @@ typedef struct {
 	unsigned char is_fail;			// State of the Game Fail
 	unsigned char is_end;			// State of the Game Gameover or Victory
 	unsigned char spc_pills_gen;	// Number of Special Pills Generated
+	unsigned char blinky_curr_speed;// State of Blinky (Current Speed)
+	unsigned char is_blinky_dead;	// State of Blinky (Dead or Alive)
+	unsigned char is_blinky_blue;	// State of Blinky (Vulnerable or Normal)
 } GameStatus;
 
 
 /* (Public) Functions Prototypes */
-	
-	
+
+unsigned int speed_to_timer_count(unsigned char speed_value);
+unsigned int seconds_to_timer_count(float seconds);
+unsigned char seconds_to_ticks(float seconds);
+float ticks_to_seconds(unsigned char ticks);
+
+
 /* Global Variables and Constants */
 
 extern const GameConfig GAME_CONFIG;
+extern GameTimings GAME_TIMINGS;
 extern GameRunning game_run;
 extern GameStatus game_status;
 

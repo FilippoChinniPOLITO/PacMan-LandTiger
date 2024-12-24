@@ -3,17 +3,20 @@
 
 /* (Private) Function Prototypes */
 
+void handle_time_update();
 void handle_fail();
 void handle_game_over();
 void handle_draw_pause();
+void handle_pacman_move();
 void handle_pacman_update(Pacman* pacman, Position next_pos, unsigned char* prev_cell, unsigned char* next_cell, unsigned char is_collision);
 void update_pacman_animation();
 Position calculate_next_position(Pacman pacman);
 unsigned char handle_tp(Position* pos, Direction direction);
 void handle_score_update(CellType pill_type);
 void handle_lives_update();
-Position generate_random_position();
+void handle_special_pill_generation();
 void handle_pill_transformation(Position pos);
+Position generate_random_position();
 void toggle_timers();
 void handle_draw_stat_time(unsigned char time_value);
 void handle_draw_stat_score(unsigned short score_value);
@@ -43,6 +46,43 @@ void handle_level_init(unsigned short is_first_init) {
 	}
 	else {
 		handle_draw_stat_time(game_run.time);
+	}
+}
+
+void handle_next_tick() {	
+	static unsigned short tick_count;
+	static unsigned char blinky_respawn_tick_count;
+	static unsigned char blinky_blue_tick_count;
+	
+	tick_count++;
+	
+	if(game_status.is_blinky_blue) {
+		blinky_blue_tick_count++;
+		if(blinky_blue_tick_count >= GAME_TIMINGS.blinky_blue_ticks) {
+			blinky_blue_tick_count = 0;
+			//turn blinky back to normal
+		}
+	}
+	else if(game_status.is_blinky_dead) {
+		blinky_respawn_tick_count++;
+		if(blinky_respawn_tick_count >= GAME_TIMINGS.blinky_respawn_ticks) {
+			blinky_respawn_tick_count = 0;
+			//revive blinky
+		}
+	}
+	
+	handle_pacman_move();
+	
+	if((tick_count % TICK_SECOND_RATIO) == 0) {
+		handle_time_update();
+	}
+	
+	if((tick_count % GAME_CONFIG.spc_pill_gen_ratio) == 0) {
+		handle_special_pill_generation();
+	}
+	
+	if((tick_count % GAME_TIMINGS.blinky_accel_interval_ticks) == 0) {
+		//handle_blinky_acceleration();
 	}
 }
 
@@ -114,7 +154,7 @@ void handle_draw_pause() {
 	}
 }
 
-void handle_next_tick() {
+void handle_pacman_move() {
 	Position next_pos = calculate_next_position(game_run.pacman);
 	unsigned char* prev_cell = &game_run.game_map[game_run.pacman.curr_pos.y][game_run.pacman.curr_pos.x];
 	unsigned char* next_cell = &game_run.game_map[next_pos.y][next_pos.x];
@@ -231,9 +271,14 @@ void handle_lives_update() {
 
 void handle_special_pill_generation() {
 	const unsigned char PROBABILITY_TRESHOLD = 60;	//60%
+	unsigned char temp;
 	
-	unsigned char temp = (get_timer_value(1) ^ get_timer_value(2) ^ get_RIT_value()) % 101;
-	if((temp > PROBABILITY_TRESHOLD) || (game_status.spc_pills_gen >= GAME_CONFIG.spc_pill_count)) {
+	if(game_status.spc_pills_gen >= GAME_CONFIG.spc_pill_count) {
+		return;
+	}
+	
+	temp = (get_timer_value(2) ^ get_timer_value(3) ^ get_RIT_value()) % 101;
+	if(temp > PROBABILITY_TRESHOLD) {
 		return;
 	}
 	
@@ -250,14 +295,15 @@ void handle_pill_transformation(Position pos) {
 }
 
 Position generate_random_position() {
-	srand(get_timer_value(1) ^ get_timer_value(2) ^ get_RIT_value() ^ 1103515245);
+	srand(get_timer_value(2) ^ get_timer_value(3) ^ get_RIT_value() ^ 1103515245);
 	return (Position) {.y = (rand() % MAP_HEIGTH), .x = (rand() % MAP_WIDTH)};
 }
 
 void toggle_timers() {
-	toggle_timer(2);
-	toggle_timer(1);
-	toggle_timer(3);
+	toggle_timer(0);
+	//toggle_timer(1);
+	//toggle_timer(2);
+	//toggle_timer(3);
 }
 
 void handle_draw_stat_time(unsigned char time_value) {

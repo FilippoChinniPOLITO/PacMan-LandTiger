@@ -25,7 +25,6 @@
 /* (Public) Functions Prototypes */
 
 void init_game();
-void init_game_timers();
 
 
 
