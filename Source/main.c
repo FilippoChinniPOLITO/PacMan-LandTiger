@@ -75,6 +75,11 @@ int main(void)
 	// Joystick
 	joystick_init();
 	
+	// Speaker
+	LPC_PINCON -> PINSEL1 |= (1<<21);
+	LPC_PINCON -> PINSEL1 &= ~(1<<20);
+	LPC_GPIO0 -> FIODIR |= (1<<26);
+	
 	// RIT
 	init_RIT(0x004C4B40);					// 50ms
 	enable_RIT();

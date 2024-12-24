@@ -12,6 +12,8 @@ void interrupt_joystick_direction_update_left();
 
 void interrupt_button_INT0_pause();
 
+void interrupt_speaker_play_full_sound();
+
 
 
 #endif //__USER_RIT_H

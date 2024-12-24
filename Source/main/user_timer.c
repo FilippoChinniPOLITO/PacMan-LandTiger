@@ -10,10 +10,10 @@ void interrupt_timer_1_move_blinky() {
 }
 
 void interrupt_timer_2_play_sound() {
-	//
+	handle_play_single_sound();
 }
 
 void interrupt_timer_3_play_sound_duration() {
-	//
+	handle_play_single_sound_duration();
 }
 

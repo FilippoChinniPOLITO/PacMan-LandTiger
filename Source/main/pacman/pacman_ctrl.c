@@ -306,6 +306,20 @@ void toggle_timers() {
 	//toggle_timer(3);
 }
 
+
+void handle_play_full_sound() {
+	play_full_sound();
+}
+
+void handle_play_single_sound() {
+	play_single_sound();
+}
+
+void handle_play_single_sound_duration() {
+	play_single_sound_duration();
+}
+
+
 void handle_draw_stat_time(unsigned char time_value) {
 	if(IS_SIMULATOR) {	// No CAN in Simulator
 		draw_stat_time(time_value);

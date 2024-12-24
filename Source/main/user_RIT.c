@@ -1,7 +1,5 @@
 #include "user_RIT.h"
 
-#include "timer/timer.h"
-
 
 //	DIRECTION_STILL	= 0,
 //	DIRECTION_RIGHT	= 1,
@@ -30,3 +28,10 @@ void interrupt_joystick_direction_update_left() {
 void interrupt_button_INT0_pause() {
 	handle_pause();
 }
+
+
+void interrupt_speaker_play_full_sound() {
+	handle_play_full_sound();
+}
+
+

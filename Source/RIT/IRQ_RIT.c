@@ -231,9 +231,9 @@ void RIT_IRQHandler(void)
 	
 	/////////////////////////////////////
 
-	//ADC_start_conversion();		/* ADC */ 
 	
-	// end ADC
+	interrupt_speaker_play_full_sound();			/* D/A Converter (Audio) */ 
+	
 	
 	/////////////////////////////////////
 	
