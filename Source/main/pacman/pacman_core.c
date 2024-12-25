@@ -1,10 +1,7 @@
 #include "pacman_core.h"
 
 
-/* (Private) Function Prototypes */
-
-
-/* Global Variables and Costants Definitions */
+/* (Public) Global Variables Definitions */
 
 const GameConfig GAME_CONFIG = {
 	.map_id = 2,
@@ -31,21 +28,8 @@ GameRunning game_run;
 GameStatus game_status;
 
 
-/* Function Implementations */
+/* (Private) Function Prototypes */
 
-unsigned int speed_to_timer_count(unsigned char speed_value) {
-	return seconds_to_timer_count(TICK_SPEED_CONV * ((TICK_SECOND_RATIO * 2) - speed_value));
-}
 
-unsigned int seconds_to_timer_count(float seconds) {
-	return ((unsigned int) (seconds * SYSTEM_FREQUENCY));
-}
-
-unsigned char seconds_to_ticks(float seconds) {
-	return ((unsigned char) (seconds / TICK_DURATION));
-}
-
-float ticks_to_seconds(unsigned char ticks) {
-	return (((float) ticks) * TICK_DURATION);
-}
+/* Functions Implementations */
 

@@ -383,16 +383,6 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>startup_file</GroupName>
-          <Files>
-            <File>
-              <FileName>startup_LPC17xx.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Source\startup_LPC17xx.s</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>main</GroupName>
           <Files>
             <File>
@@ -401,25 +391,15 @@
               <FilePath>.\Source\main.c</FilePath>
             </File>
             <File>
-              <FileName>user_RIT.h</FileName>
+              <FileName>file_template.txt</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\main\user_RIT.h</FilePath>
+              <FilePath>.\Source\main\file_template.txt</FilePath>
             </File>
-            <File>
-              <FileName>user_RIT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\main\user_RIT.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\main\user_timer.h</FilePath>
-            </File>
-            <File>
-              <FileName>user_timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\main\user_timer.c</FilePath>
-            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>main_pacman</GroupName>
+          <Files>
             <File>
               <FileName>pacman_core.h</FileName>
               <FileType>5</FileType>
@@ -480,15 +460,60 @@
               <FileType>1</FileType>
               <FilePath>.\Source\main\pacman\pacman_sound.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>main_interfaces</GroupName>
+          <Files>
+            <File>
+              <FileName>hw_abstraction.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\interfaces\hw_abstraction.h</FilePath>
+            </File>
+            <File>
+              <FileName>hw_abstraction.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\interfaces\hw_abstraction.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\interfaces\user_timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\interfaces\user_timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_RIT.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\interfaces\user_RIT.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_RIT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\interfaces\user_RIT.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_ADC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\interfaces\user_ADC.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\interfaces\user_ADC.c</FilePath>
+            </File>
             <File>
               <FileName>user_CAN.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\main\user_CAN.h</FilePath>
+              <FilePath>.\Source\main\interfaces\user_CAN.h</FilePath>
             </File>
             <File>
               <FileName>user_CAN.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\main\user_CAN.c</FilePath>
+              <FilePath>.\Source\main\interfaces\user_CAN.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -553,22 +578,22 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>button_EXINT</GroupName>
+          <GroupName>button</GroupName>
           <Files>
             <File>
               <FileName>button.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\button_EXINT\button.h</FilePath>
+              <FilePath>.\Source\button\button.h</FilePath>
             </File>
             <File>
               <FileName>lib_button.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\button_EXINT\lib_button.c</FilePath>
+              <FilePath>.\Source\button\lib_button.c</FilePath>
             </File>
             <File>
               <FileName>IRQ_button.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\button_EXINT\IRQ_button.c</FilePath>
+              <FilePath>.\Source\button\IRQ_button.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -659,6 +684,26 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>ADC</GroupName>
+          <Files>
+            <File>
+              <FileName>adc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\ADC\adc.h</FilePath>
+            </File>
+            <File>
+              <FileName>lib_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\ADC\lib_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>IRQ_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\ADC\IRQ_adc.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>CAN</GroupName>
           <Files>
             <File>
@@ -675,6 +720,16 @@
               <FileName>IRQ_CAN.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\CAN\IRQ_CAN.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>startup_file</GroupName>
+          <Files>
+            <File>
+              <FileName>startup_LPC17xx.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Source\startup_LPC17xx.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -1100,16 +1155,6 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>startup_file</GroupName>
-          <Files>
-            <File>
-              <FileName>startup_LPC17xx.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Source\startup_LPC17xx.s</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>main</GroupName>
           <Files>
             <File>
@@ -1118,25 +1163,15 @@
               <FilePath>.\Source\main.c</FilePath>
             </File>
             <File>
-              <FileName>user_RIT.h</FileName>
+              <FileName>file_template.txt</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\main\user_RIT.h</FilePath>
+              <FilePath>.\Source\main\file_template.txt</FilePath>
             </File>
-            <File>
-              <FileName>user_RIT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\main\user_RIT.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\main\user_timer.h</FilePath>
-            </File>
-            <File>
-              <FileName>user_timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\main\user_timer.c</FilePath>
-            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>main_pacman</GroupName>
+          <Files>
             <File>
               <FileName>pacman_core.h</FileName>
               <FileType>5</FileType>
@@ -1197,15 +1232,60 @@
               <FileType>1</FileType>
               <FilePath>.\Source\main\pacman\pacman_sound.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>main_interfaces</GroupName>
+          <Files>
+            <File>
+              <FileName>hw_abstraction.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\interfaces\hw_abstraction.h</FilePath>
+            </File>
+            <File>
+              <FileName>hw_abstraction.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\interfaces\hw_abstraction.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\interfaces\user_timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\interfaces\user_timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_RIT.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\interfaces\user_RIT.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_RIT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\interfaces\user_RIT.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_ADC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\main\interfaces\user_ADC.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\main\interfaces\user_ADC.c</FilePath>
+            </File>
             <File>
               <FileName>user_CAN.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\main\user_CAN.h</FilePath>
+              <FilePath>.\Source\main\interfaces\user_CAN.h</FilePath>
             </File>
             <File>
               <FileName>user_CAN.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\main\user_CAN.c</FilePath>
+              <FilePath>.\Source\main\interfaces\user_CAN.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1270,22 +1350,22 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>button_EXINT</GroupName>
+          <GroupName>button</GroupName>
           <Files>
             <File>
               <FileName>button.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\button_EXINT\button.h</FilePath>
+              <FilePath>.\Source\button\button.h</FilePath>
             </File>
             <File>
               <FileName>lib_button.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\button_EXINT\lib_button.c</FilePath>
+              <FilePath>.\Source\button\lib_button.c</FilePath>
             </File>
             <File>
               <FileName>IRQ_button.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\button_EXINT\IRQ_button.c</FilePath>
+              <FilePath>.\Source\button\IRQ_button.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1325,6 +1405,26 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>ADC</GroupName>
+          <Files>
+            <File>
+              <FileName>adc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\ADC\adc.h</FilePath>
+            </File>
+            <File>
+              <FileName>lib_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\ADC\lib_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>IRQ_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\ADC\IRQ_adc.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>CAN</GroupName>
           <Files>
             <File>
@@ -1341,6 +1441,16 @@
               <FileName>IRQ_CAN.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\CAN\IRQ_CAN.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>startup_file</GroupName>
+          <Files>
+            <File>
+              <FileName>startup_LPC17xx.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Source\startup_LPC17xx.s</FilePath>
             </File>
           </Files>
         </Group>

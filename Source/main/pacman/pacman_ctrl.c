@@ -1,7 +1,25 @@
 #include "pacman_ctrl.h"
 
 
-/* (Private) Function Prototypes */
+/* (Private) System Imports */
+
+#include <stdlib.h>
+
+
+/* (Private) Hardware Imports */
+
+//#include "../interfaces/hw_abstraction.h"		// Transitive Import
+
+
+/* (Private) User Imports */
+
+#include "pacman_core.h"
+#include "pacman_view.h"
+#include "pacman_utils.h"
+#include "pacman_sound.h"
+
+
+/* (Private) Functions Prototypes */
 
 void handle_time_update();
 void handle_fail();
@@ -17,17 +35,13 @@ void handle_lives_update();
 void handle_special_pill_generation();
 void handle_pill_transformation(Position pos);
 Position generate_random_position();
-void toggle_timers();
 void handle_draw_stat_time(unsigned char time_value);
 void handle_draw_stat_score(unsigned short score_value);
 void handle_draw_stat_lives(unsigned char lives_value);
 void handle_CAN_send();
 
 
-/* (Private) Constants Definitions */
-
-
-/* Function Implementations */
+/* Functions Implementations */
 
 void handle_level_init(unsigned short is_first_init) {
 	game_status.spc_pills_gen = 0;
@@ -60,14 +74,14 @@ void handle_next_tick() {
 		blinky_blue_tick_count++;
 		if(blinky_blue_tick_count >= GAME_TIMINGS.blinky_blue_ticks) {
 			blinky_blue_tick_count = 0;
-			//turn blinky back to normal
+			// TODO turn blinky back to normal
 		}
 	}
 	else if(game_status.is_blinky_dead) {
 		blinky_respawn_tick_count++;
 		if(blinky_respawn_tick_count >= GAME_TIMINGS.blinky_respawn_ticks) {
 			blinky_respawn_tick_count = 0;
-			//revive blinky
+			// TODO revive blinky
 		}
 	}
 	
@@ -82,7 +96,7 @@ void handle_next_tick() {
 	}
 	
 	if((tick_count % GAME_TIMINGS.blinky_accel_interval_ticks) == 0) {
-		//handle_blinky_acceleration();
+		// TODO handle_blinky_acceleration();
 	}
 }
 
@@ -101,7 +115,7 @@ void handle_fail() {
 		return;
 	}
 	
-	toggle_timers();
+	HW_TIMER_toggle_timers(1, 1, 0, 0);
 	
 	game_status.is_fail = 1;
 	draw_cell(CELL_EMPTY, game_run.pacman.curr_pos);
@@ -114,14 +128,14 @@ void handle_fail() {
 
 void handle_game_over() {
 	game_status.is_end = 1;
-	toggle_timers();
+	HW_TIMER_toggle_timers(1, 1, 0, 0);
 	draw_screen_game_over();
 }
 
 void handle_victory() {
 	if(game_run.pills_left == 0) {
 		game_status.is_end = 1;
-		toggle_timers();
+		HW_TIMER_toggle_timers(1, 1, 0, 0);
 		draw_screen_victory();
 	}
 }
@@ -131,7 +145,7 @@ void handle_pause() {
 		return;
 	}
 	
-	toggle_timers();
+	HW_TIMER_toggle_timers(1, 1, 0, 0);
 	
 	if(game_status.is_fail) {
 		game_status.is_fail = 0;
@@ -277,7 +291,7 @@ void handle_special_pill_generation() {
 		return;
 	}
 	
-	temp = (get_timer_value(2) ^ get_timer_value(3) ^ get_RIT_value()) % 101;
+	temp = (HW_TIMER_get_timer_value(2) ^ HW_TIMER_get_timer_value(3) ^ HW_RIT_get_RIT_value()) % 101;
 	if(temp > PROBABILITY_TRESHOLD) {
 		return;
 	}
@@ -295,15 +309,8 @@ void handle_pill_transformation(Position pos) {
 }
 
 Position generate_random_position() {
-	srand(get_timer_value(2) ^ get_timer_value(3) ^ get_RIT_value() ^ 1103515245);
+	srand(HW_TIMER_get_timer_value(2) ^ HW_TIMER_get_timer_value(3) ^ HW_RIT_get_RIT_value() ^ 1103515245);
 	return (Position) {.y = (rand() % MAP_HEIGTH), .x = (rand() % MAP_WIDTH)};
-}
-
-void toggle_timers() {
-	toggle_timer(0);
-	//toggle_timer(1);
-	//toggle_timer(2);
-	//toggle_timer(3);
 }
 
 
@@ -347,17 +354,7 @@ void handle_draw_stat_lives(unsigned char lives_value) {
 }
 
 void handle_CAN_send() {
-	CAN_TxMsg.data[0] = game_run.time;
-	CAN_TxMsg.data[1] = game_run.lives;
-	CAN_TxMsg.data[2] = (game_run.score & 0xFF00) >> 8;
-	CAN_TxMsg.data[3] = game_run.score & 0xFF;
-	
-	CAN_TxMsg.len = 4;
-	CAN_TxMsg.id = 2;
-	CAN_TxMsg.format = STANDARD_FORMAT;
-	CAN_TxMsg.type = DATA_FRAME;
-	
-	CAN_wrMsg(1, &CAN_TxMsg);
+	HW_CAN_send_pacman_stats(game_run.time, game_run.score, game_run.lives);
 }
 
 

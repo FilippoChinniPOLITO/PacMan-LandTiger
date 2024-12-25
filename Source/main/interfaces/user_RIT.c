@@ -1,6 +1,13 @@
 #include "user_RIT.h"
 
 
+/* (Private) User Imports */
+
+#include "../pacman/pacman_ctrl.h"
+
+
+/* Functions Implementations */
+
 //	DIRECTION_STILL	= 0,
 //	DIRECTION_RIGHT	= 1,
 //	DIRECTION_LEFT	= 2,
@@ -33,5 +40,4 @@ void interrupt_button_INT0_pause() {
 void interrupt_speaker_play_full_sound() {
 	handle_play_full_sound();
 }
-
 

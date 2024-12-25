@@ -2,29 +2,9 @@
 #define __PACMAN_CTRL_H
 
 
-/* System Imports */
-
-#include <stdlib.h>
-
-
-/* Hardware Imports */
-
-#include "../CAN/CAN.h"
-
-
-/* User Imports */
+/* (Public) User Imports */
 
 #include "pacman_core.h"
-#include "pacman_view.h"
-#include "pacman_utils.h"
-#include "pacman_sound.h"
-
-
-/* Constants Definitions */
-
-
-/* Type Definitions */
-
 
 
 /* (Public) Functions Prototypes */

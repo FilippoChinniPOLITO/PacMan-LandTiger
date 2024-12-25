@@ -25,7 +25,7 @@
  *
  * Politecnico di Torino - A.A. 2024/2025
  * 
- * Architetture dei Sistemi di Eleborazione - ExtraPoint 1
+ * Architetture dei Sistemi di Eleborazione - ExtraPoint 2
  *
  * Filippo Chinni Carella - S345011
  *
@@ -33,19 +33,18 @@
 
 
 	/* System Defines */
+
+#ifdef SIMULATOR
+	extern unsigned char ScaleFlag;
+#endif
+
+	/* System Imports */
 	
 #include "LPC17xx.h"
 
-#ifdef SIMULATOR
-extern uint8_t ScaleFlag;
-#endif
-
-
 	/* Hardware Imports */
 
-#include "GLCD/GLCD.h" 
-#include "timer/timer.h"
-
+//#include "main/interfaces/hw_abstraction.h"		// Transitive Import
 
 	/* User Imports */
 
@@ -55,50 +54,38 @@ extern uint8_t ScaleFlag;
 
 	/* Main function */
 
-int main(void)
-{
+int main() {
+	
 	/* Area Init */
 	
 	// System
 	SystemInit();
 	
-	// CAN
-	CAN_Init();
-	
 	// Display
-	LCD_Initialization();
-	LCD_Clear(Black);
+	HW_DISPLAY_init();
+	HW_DISPLAY_LCD_Clear_Black();
 	
 	// Buttons
-	BUTTON_init();
+	HW_BUTTONS_init();
 	
 	// Joystick
-	joystick_init();
+	HW_JOYSTICK_init();
+	
+	// ADC
+	HW_ADC_init();
 	
 	// Speaker
-	LPC_PINCON -> PINSEL1 |= (1<<21);
-	LPC_PINCON -> PINSEL1 &= ~(1<<20);
-	LPC_GPIO0 -> FIODIR |= (1<<26);
+	HW_SPEAKER_turn_on();
+	
+	// CAN
+	HW_CAN_init();
 	
 	// RIT
-	init_RIT(0x004C4B40);					// 50ms
-	enable_RIT();
+	HW_RIT_init_RIT(0x004C4B40);			// 50ms
+	HW_RIT_enable_RIT();
 	
 	// Timers
-	LPC_SC -> PCONP |= (1 << 22);  			// Turn ON TIMER2 (anche da Wizard del System)
-	LPC_SC -> PCONP |= (1 << 23);  			// Turn ON TIMER3 (anche da Wizard del System)
-	
-	
-	/* Area Timers */
-	
-	// t * f = count
-	// f = 25Mhz	=> 25'000'000 Hz
-	// t = richiesta del problema
-	
-	//init_timer(timer_num, Prescaler, MatchReg, SRImatchReg, TimerInterval);
-
-
-	// Timers are Initilized during the Game
+	HW_TIMER_turn_on();
 	
 	
 	/* Area Program Code */
@@ -116,8 +103,7 @@ int main(void)
 	/* Area <Other> */
 
 	//Power-Down Mode
-	LPC_SC->PCON |= 0x1;
-	LPC_SC->PCON &= ~(0x2);	
+	HW_PowerDown_Mode();
 	
 	
 	/* Area Loop */

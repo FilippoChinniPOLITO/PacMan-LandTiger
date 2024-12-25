@@ -11,7 +11,9 @@
 #include "timer.h"
 
 
-#include "../main/user_timer.h"
+	/* User Imports */
+
+#include "../main/interfaces/user_timer.h"
 
 
 /******************************************************************************

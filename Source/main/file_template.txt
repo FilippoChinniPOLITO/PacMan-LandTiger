@@ -1,0 +1,62 @@
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+FILE .h
+
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+#ifndef __NOME_HEADER_H
+#define __NOME_HEADER_H
+
+
+/* (Public) System Imports */
+
+/* (Public) Hardware Imports */
+
+/* (Public) User Imports */
+
+/* (Public) Constants Definitions */
+
+/* (Public) Types Definitions */
+
+/* (Public) Functions Prototypes */
+
+/* (Public) Global Variables Declaration */
+
+
+
+#endif //__NOME_HEADER_H
+
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+FILE .c
+
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+#include "nome_header.h"
+
+
+/* (Private) System Imports */
+
+/* (Private) Hardware Imports */
+
+/* (Private) User Imports */
+
+/* (Public) Global Variables Definitions */
+
+/* (Private) Constants Definitions */
+
+/* (Private) Types Definitions */
+
+/* (Private) Functions Prototypes */
+
+/* (Private) Global Variables Definitions */
+
+/* (Private) File-Scope Global Variables */
+
+/* Functions Implementations */
+
+

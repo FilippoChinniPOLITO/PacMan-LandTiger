@@ -2,23 +2,12 @@
 #define __PACMAN_CORE_H
 
 
-/* System Imports */
+/* (Public) Hardware Imports */
 
-#include "LPC17xx.h"
-
-
-/* User Imports */
+#include "../interfaces/hw_abstraction.h"
 
 
-/* Constants Definitions */
-
-//General (System)
-#ifdef SIMULATOR
-#define IS_SIMULATOR		1
-#else
-#define IS_SIMULATOR		0
-#endif
-#define SYSTEM_FREQUENCY	25000000
+/* (Public) Constants Definitions */
 
 //General (Game Optimization)
 #define PACMAN_SPEED		5				// This #define is for Optimization Purposes
@@ -72,7 +61,7 @@
 #define LIVES_VALUE_START_X	(LIVES_AREA_START_X + 16)
 
 
-/* Type Definitions */
+/* (Public) Types Definitions */
 
 typedef enum {
 	DIRECTION_STILL	= 0,
@@ -92,7 +81,7 @@ typedef enum {
     CELL_PACMAN 	= 6		// PacMan
 } CellType;
 
-typedef uint8_t GameMap[MAP_HEIGTH][MAP_WIDTH];
+typedef unsigned char GameMap[MAP_HEIGTH][MAP_WIDTH];
 
 typedef struct {
 	unsigned char x;
@@ -154,13 +143,8 @@ typedef struct {
 
 /* (Public) Functions Prototypes */
 
-unsigned int speed_to_timer_count(unsigned char speed_value);
-unsigned int seconds_to_timer_count(float seconds);
-unsigned char seconds_to_ticks(float seconds);
-float ticks_to_seconds(unsigned char ticks);
 
-
-/* Global Variables and Constants */
+/* (Public) Global Variables Declaration */
 
 extern const GameConfig GAME_CONFIG;
 extern GameTimings GAME_TIMINGS;

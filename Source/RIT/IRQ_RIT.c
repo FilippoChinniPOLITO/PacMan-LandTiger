@@ -9,11 +9,12 @@
 *********************************************************************************************************/
 #include "LPC17xx.h"
 #include "RIT.h"
+#include "../ADC/adc.h"
 
 
 	/* User Imports */
 
-#include "../main/user_RIT.h"
+#include "../main/interfaces/user_RIT.h"
 
 
 	/* Variabili Globali Gestione De-Bouncing */
@@ -232,7 +233,13 @@ void RIT_IRQHandler(void)
 	/////////////////////////////////////
 
 	
-	interrupt_speaker_play_full_sound();			/* D/A Converter (Audio) */ 
+	ADC_start_conversion();							/* A/D Converter (Volume) */ 
+	
+
+	/////////////////////////////////////
+
+	
+	interrupt_speaker_play_full_sound();			/* D/A Converter (Audio)  */ 
 	
 	
 	/////////////////////////////////////

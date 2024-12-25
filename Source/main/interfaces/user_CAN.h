@@ -2,8 +2,7 @@
 #define __USER_CAN_H
 
 
-#include "./pacman/pacman_view.h"
-
+/* (Public) Functions Prototypes */
 
 void interrupt_CAN_write_stat(unsigned char data_array[8]);
 

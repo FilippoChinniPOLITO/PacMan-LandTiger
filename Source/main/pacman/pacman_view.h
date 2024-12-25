@@ -2,23 +2,12 @@
 #define __PACMAN_VIEW_H
 
 
-/* System Imports */
-
-#include <stdio.h>
-#include <string.h>
-
-
-/* Hardware Imports */
-
-#include "../GLCD/GLCD.h"
-
-
-/* User Imports */
+/* (Public) User Imports */
 
 #include "pacman_core.h"
 
 
-/* Constants Definitions */
+/* (Public) Constants Definitions */
 
 #define COL_WHITE	0xffff
 #define COL_BLACK	0x0000
@@ -31,9 +20,6 @@
 #define COL_PINK	0xfefb
 #define COL_ORANGE	0xfd43
 #define COL_LIME	0xbfec
-
-
-/* Type Definitions */
 
 
 /* (Public) Functions Prototypes */

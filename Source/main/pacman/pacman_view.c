@@ -1,7 +1,22 @@
 #include "pacman_view.h"
 
 
-/* (Private) Type Definitions */
+/* (Private) System Imports */
+
+#include <stdio.h>
+#include <string.h>
+
+/* (Private) Hardware Imports */
+
+//#include "../interfaces/hw_abstraction.h"		// Transitive Import
+
+
+/* (Private) User Imports */
+
+#include "pacman_core.h"
+
+
+/* (Private) Types Definitions */
 
 typedef enum {
 	STYLE_FULL		= 0,
@@ -9,6 +24,20 @@ typedef enum {
 	STYLE_CIRCLE	= 2,
 	STYLE_PACMAN   	= 3
 } FillStyle;
+
+
+/* (Public) Constants Definitions */
+
+#define D_CELL_SIZE					(SCALE)
+#define D_CELL_OFFSET				(D_CELL_SIZE-1)
+
+#define CHAR_WIDTH_PIXELS			8
+#define CHAR_HEIGTH_PIXELS			16
+
+#define WRITINGS_SCREEN_CENTER_Y	(SCREEN_CENTER_Y - (CHAR_HEIGTH_PIXELS / 2))
+
+#define PAUSE_WRITING_START_Y		9
+#define PAUSE_WRITING_END_Y			15
 
 
 /* (Private) Function Prototypes */
@@ -35,23 +64,9 @@ char* convert_int_to_string_with_padding(unsigned short value, unsigned char pad
 char* center_string_in_spaces(char* string);
 
 
-/* File-Scope Global Variables */
+/* (Private) File-Scope Global Variables */
 
 static char buffer[32];
-
-
-/* (Private) Constants Definitions */
-
-#define D_CELL_SIZE					(SCALE)
-#define D_CELL_OFFSET				(D_CELL_SIZE-1)
-
-#define CHAR_WIDTH_PIXELS			8
-#define CHAR_HEIGTH_PIXELS			16
-
-#define WRITINGS_SCREEN_CENTER_Y	(SCREEN_CENTER_Y - (CHAR_HEIGTH_PIXELS / 2))
-
-#define PAUSE_WRITING_START_Y		9
-#define PAUSE_WRITING_END_Y			15
 
 
 /* Function Implementations */
@@ -69,12 +84,12 @@ void undraw_screen_pause() {
 }
 
 void draw_screen_victory() {
-	LCD_Clear(COL_BLACK);
+	HW_DISPLAY_LCD_Clear(COL_BLACK);
 	write_centered("VICTORY!!!", COL_GREEN, COL_BLACK, 0);
 }
 
 void draw_screen_game_over() {
-	LCD_Clear(COL_BLACK);
+	HW_DISPLAY_LCD_Clear(COL_BLACK);
 	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y - CHAR_HEIGTH_PIXELS, "G A M E", COL_RED, COL_BLACK, 0);
 	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y, " ", COL_RED, COL_BLACK, 0);
 	write_centered_set_y(WRITINGS_SCREEN_CENTER_Y + CHAR_HEIGTH_PIXELS, "O V E R", COL_RED, COL_BLACK, 0);
@@ -228,7 +243,7 @@ void draw_full_line(unsigned short x_start, unsigned short y_start, unsigned sho
 	const short line_width = ((y_start - y_end) * -1) + 1;
 
 	for(i=0; i < line_width; i++) {
-		LCD_DrawLine(x_start, (y_start + i), x_end, (y_start + i), color);
+		HW_DISPLAY_LCD_DrawLine(x_start, (y_start + i), x_end, (y_start + i), color);
 	}
 }
 
@@ -237,13 +252,13 @@ void draw_border_line(unsigned short x_start, unsigned short y_start, unsigned s
 	const short line_width = ((y_start - y_end) * -1) + 1;
 
 	i = 0;
-	LCD_DrawLine(x_start, (y_start + i), x_end, (y_start + i), color);
+	HW_DISPLAY_LCD_DrawLine(x_start, (y_start + i), x_end, (y_start + i), color);
 	while(i < line_width-1) {
-		LCD_SetPoint(x_start, (y_start + i), color);
-		LCD_SetPoint(x_end, (y_start + i), color);
+		HW_DISPLAY_LCD_SetPoint(x_start, (y_start + i), color);
+		HW_DISPLAY_LCD_SetPoint(x_end, (y_start + i), color);
 		i++;
 	}
-	LCD_DrawLine(x_start, (y_start + i), x_end, (y_start + i), color);
+	HW_DISPLAY_LCD_DrawLine(x_start, (y_start + i), x_end, (y_start + i), color);
 }
 
 void draw_circle(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color) {
@@ -254,8 +269,8 @@ void draw_circle(unsigned short x_start, unsigned short y_start, unsigned short 
 	is_even = (radius % 2 == 0) ? 1 : 0;
 	
 	for(i=0; i <= radius; i++) {
-		LCD_DrawLine(x_start+i, (y_start + radius - i), x_end-i, (y_start + radius - i), color);
-		LCD_DrawLine(x_start+i, (y_start + radius + i + is_even), x_end-i, (y_start + radius + i + is_even), color);
+		HW_DISPLAY_LCD_DrawLine(x_start+i, (y_start + radius - i), x_end-i, (y_start + radius - i), color);
+		HW_DISPLAY_LCD_DrawLine(x_start+i, (y_start + radius + i + is_even), x_end-i, (y_start + radius + i + is_even), color);
 	}
 }
 
@@ -269,103 +284,103 @@ void draw_pacman_model(unsigned short x_start, unsigned short y_start, unsigned 
 		case(DIRECTION_STILL):
 		case(DIRECTION_RIGHT):
 			if(animation_frame == 0) {
-				LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color);
-				LCD_DrawLine(x_start+0, y_start+1, x_end-2, y_start+1, color);
-				LCD_SetPoint(x_start+2, y_start+1, COL_BLACK);
-				LCD_DrawLine(x_start+0, y_start+2, x_end-3, y_start+2, color);
-				LCD_DrawLine(x_start+0, y_start+3, x_end-4, y_start+3, color);
-				LCD_DrawLine(x_start+0, y_start+4, x_end-3, y_start+4, color);
-				LCD_DrawLine(x_start+0, y_start+5, x_end-2, y_start+5, color);
-				LCD_DrawLine(x_start+1, y_start+6, x_end-1, y_start+6, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+1, x_end-2, y_start+1, color);
+				HW_DISPLAY_LCD_SetPoint(x_start+2, y_start+1, COL_BLACK);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+2, x_end-3, y_start+2, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+3, x_end-4, y_start+3, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+4, x_end-3, y_start+4, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+5, x_end-2, y_start+5, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+6, x_end-1, y_start+6, color);
 			}
 			else if(animation_frame == 1) {
-				LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color);
-				LCD_DrawLine(x_start+0, y_start+1, x_end-1, y_start+1, color);
-				LCD_SetPoint(x_start+2, y_start+1, COL_BLACK);
-				LCD_DrawLine(x_start+0, y_start+2, x_end-2, y_start+2, color);
-				LCD_DrawLine(x_start+0, y_start+3, x_end-3, y_start+3, color);
-				LCD_DrawLine(x_start+0, y_start+4, x_end-2, y_start+4, color);
-				LCD_DrawLine(x_start+0, y_start+5, x_end-1, y_start+5, color);
-				LCD_DrawLine(x_start+1, y_start+6, x_end-1, y_start+6, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+1, x_end-1, y_start+1, color);
+				HW_DISPLAY_LCD_SetPoint(x_start+2, y_start+1, COL_BLACK);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+2, x_end-2, y_start+2, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+3, x_end-3, y_start+3, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+4, x_end-2, y_start+4, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+5, x_end-1, y_start+5, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+6, x_end-1, y_start+6, color);
 			}
 			break;
 		case(DIRECTION_LEFT):
 			if(animation_frame == 0) {
-				LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color);
-				LCD_DrawLine(x_start+2, y_start+1, x_end-0, y_start+1, color);
-				LCD_SetPoint(x_start+4, y_start+1, COL_BLACK);
-				LCD_DrawLine(x_start+3, y_start+2, x_end-0, y_start+2, color);
-				LCD_DrawLine(x_start+4, y_start+3, x_end-0, y_start+3, color);
-				LCD_DrawLine(x_start+3, y_start+4, x_end-0, y_start+4, color);
-				LCD_DrawLine(x_start+2, y_start+5, x_end-0, y_start+5, color);
-				LCD_DrawLine(x_start+1, y_start+6, x_end-1, y_start+6, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+2, y_start+1, x_end-0, y_start+1, color);
+				HW_DISPLAY_LCD_SetPoint(x_start+4, y_start+1, COL_BLACK);
+				HW_DISPLAY_LCD_DrawLine(x_start+3, y_start+2, x_end-0, y_start+2, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+4, y_start+3, x_end-0, y_start+3, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+3, y_start+4, x_end-0, y_start+4, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+2, y_start+5, x_end-0, y_start+5, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+6, x_end-1, y_start+6, color);
 			}
 			else if(animation_frame == 1) {
-				LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color);
-				LCD_DrawLine(x_start+1, y_start+1, x_end-0, y_start+1, color);
-				LCD_SetPoint(x_start+4, y_start+1, COL_BLACK);
-				LCD_DrawLine(x_start+2, y_start+2, x_end-0, y_start+2, color);
-				LCD_DrawLine(x_start+3, y_start+3, x_end-0, y_start+3, color);
-				LCD_DrawLine(x_start+2, y_start+4, x_end-0, y_start+4, color);
-				LCD_DrawLine(x_start+1, y_start+5, x_end-0, y_start+5, color);
-				LCD_DrawLine(x_start+1, y_start+6, x_end-1, y_start+6, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+1, x_end-0, y_start+1, color);
+				HW_DISPLAY_LCD_SetPoint(x_start+4, y_start+1, COL_BLACK);
+				HW_DISPLAY_LCD_DrawLine(x_start+2, y_start+2, x_end-0, y_start+2, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+3, y_start+3, x_end-0, y_start+3, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+2, y_start+4, x_end-0, y_start+4, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+5, x_end-0, y_start+5, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+6, x_end-1, y_start+6, color);
 			}
 			break;
 		case(DIRECTION_UP):
 			if(animation_frame == 0) {
-				LCD_SetPoint(x_start, y_start+1, COL_YELLOW);
-				LCD_SetPoint(x_end, y_start+1, COL_YELLOW);
-				LCD_DrawLine(x_start+0, y_start+2, x_start+1, y_start+2, color);
-				LCD_DrawLine(x_end-0, y_start+2, x_end-1, y_start+2, color);
-				LCD_DrawLine(x_start+0, y_start+3, x_start+2, y_start+3, color);
-				LCD_DrawLine(x_end-0, y_start+3, x_end-2, y_start+3, color);
-				LCD_DrawLine(x_start+0, y_start+4, x_end-0, y_start+4, color);
-				LCD_DrawLine(x_start+0, y_start+5, x_end-0, y_start+5, color);
-				LCD_DrawLine(x_start+1, y_start+6, x_end-1, y_start+6, color);
-				LCD_SetPoint(x_start+1, y_start+4, COL_BLACK);
+				HW_DISPLAY_LCD_SetPoint(x_start, y_start+1, COL_YELLOW);
+				HW_DISPLAY_LCD_SetPoint(x_end, y_start+1, COL_YELLOW);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+2, x_start+1, y_start+2, color);
+				HW_DISPLAY_LCD_DrawLine(x_end-0, y_start+2, x_end-1, y_start+2, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+3, x_start+2, y_start+3, color);
+				HW_DISPLAY_LCD_DrawLine(x_end-0, y_start+3, x_end-2, y_start+3, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+4, x_end-0, y_start+4, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+5, x_end-0, y_start+5, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+6, x_end-1, y_start+6, color);
+				HW_DISPLAY_LCD_SetPoint(x_start+1, y_start+4, COL_BLACK);
 			}
 			else if(animation_frame == 1) {
-				LCD_DrawLine(x_start+0, y_start+1, x_start+1, y_start+1, color);
-				LCD_DrawLine(x_end-0, y_start+1, x_end-1, y_start+1, color);
-				LCD_DrawLine(x_start+0, y_start+2, x_start+2, y_start+2, color);
-				LCD_DrawLine(x_end-0, y_start+2, x_end-2, y_start+2, color);
-				LCD_DrawLine(x_start+0, y_start+3, x_end-0, y_start+3, color);
-				LCD_DrawLine(x_start+0, y_start+4, x_end-0, y_start+4, color);
-				LCD_DrawLine(x_start+0, y_start+5, x_end-0, y_start+5, color);
-				LCD_DrawLine(x_start+1, y_start+6, x_end-1, y_start+6, color);
-				LCD_SetPoint(x_start+1, y_start+4, COL_BLACK);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+1, x_start+1, y_start+1, color);
+				HW_DISPLAY_LCD_DrawLine(x_end-0, y_start+1, x_end-1, y_start+1, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+2, x_start+2, y_start+2, color);
+				HW_DISPLAY_LCD_DrawLine(x_end-0, y_start+2, x_end-2, y_start+2, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+3, x_end-0, y_start+3, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+4, x_end-0, y_start+4, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+5, x_end-0, y_start+5, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+6, x_end-1, y_start+6, color);
+				HW_DISPLAY_LCD_SetPoint(x_start+1, y_start+4, COL_BLACK);
 			}
 			break;
 		case(DIRECTION_DOWN):
 			if(animation_frame == 0) {
-				LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color);
-				LCD_DrawLine(x_start+0, y_start+1, x_end-0, y_start+1, color);
-				LCD_DrawLine(x_start+0, y_start+2, x_end-0, y_start+2, color);
-				LCD_DrawLine(x_start+0, y_start+3, x_start+2, y_start+3, color);
-				LCD_DrawLine(x_end-0, y_start+3, x_end-2, y_start+3, color);
-				LCD_DrawLine(x_start+0, y_start+4, x_start+1, y_start+4, color);
-				LCD_DrawLine(x_end-0, y_start+4, x_end-1, y_start+4, color);
-				LCD_SetPoint(x_start, y_start+5, COL_YELLOW);
-				LCD_SetPoint(x_end, y_start+5, COL_YELLOW);
-				LCD_SetPoint(x_end-1, y_start+2, COL_BLACK);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+1, x_end-0, y_start+1, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+2, x_end-0, y_start+2, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+3, x_start+2, y_start+3, color);
+				HW_DISPLAY_LCD_DrawLine(x_end-0, y_start+3, x_end-2, y_start+3, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+4, x_start+1, y_start+4, color);
+				HW_DISPLAY_LCD_DrawLine(x_end-0, y_start+4, x_end-1, y_start+4, color);
+				HW_DISPLAY_LCD_SetPoint(x_start, y_start+5, COL_YELLOW);
+				HW_DISPLAY_LCD_SetPoint(x_end, y_start+5, COL_YELLOW);
+				HW_DISPLAY_LCD_SetPoint(x_end-1, y_start+2, COL_BLACK);
 			}
 			else if(animation_frame == 1) {
-				LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color);
-				LCD_DrawLine(x_start+0, y_start+1, x_end-0, y_start+1, color);
-				LCD_DrawLine(x_start+0, y_start+2, x_end-0, y_start+2, color);
-				LCD_DrawLine(x_start+0, y_start+3, x_end-0, y_start+3, color);
-				LCD_DrawLine(x_start+0, y_start+4, x_start+2, y_start+4, color);
-				LCD_DrawLine(x_end-0, y_start+4, x_end-2, y_start+4, color);
-				LCD_DrawLine(x_start+0, y_start+5, x_start+1, y_start+5, color);
-				LCD_DrawLine(x_end-0, y_start+5, x_end-1, y_start+5, color);
-				LCD_SetPoint(x_end-1, y_start+2, COL_BLACK);
+				HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+1, x_end-0, y_start+1, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+2, x_end-0, y_start+2, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+3, x_end-0, y_start+3, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+4, x_start+2, y_start+4, color);
+				HW_DISPLAY_LCD_DrawLine(x_end-0, y_start+4, x_end-2, y_start+4, color);
+				HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+5, x_start+1, y_start+5, color);
+				HW_DISPLAY_LCD_DrawLine(x_end-0, y_start+5, x_end-1, y_start+5, color);
+				HW_DISPLAY_LCD_SetPoint(x_end-1, y_start+2, COL_BLACK);
 			}
 			break;
 	}
 }
 
 void generic_write(unsigned short x_start, unsigned short y_start, char* string, unsigned short color, unsigned short color_background) {
-	GUI_Text(x_start, y_start, (uint8_t*) string, color, color_background);
+	HW_DISPLAY_GUI_Text(x_start, y_start, (unsigned char*) string, color, color_background);
 }
 
 void write_centered(char* string, unsigned short color, unsigned short color_background, unsigned char is_full_width) {
@@ -437,6 +452,5 @@ char* center_string_in_spaces(char* string) {
 	
 	return buffer;
 }
-
 
 

@@ -15,6 +15,11 @@
 
 #include "CAN.h"                      /* LPC17xx CAN adaption layer */
 
+//#include "../GLCD/GLCD.h"
+
+
+#include "../main/interfaces/user_CAN.h"
+
 
 extern uint8_t icr ; 				//icr and result must be global in order to work with both real and simulated landtiger.
 extern uint32_t result;

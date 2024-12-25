@@ -2,8 +2,7 @@
 #define __USER_RIT_H
 
 
-#include "./pacman/pacman_ctrl.h"
-
+/* (Public) Functions Prototypes */
 
 void interrupt_joystick_direction_update_up();
 void interrupt_joystick_direction_update_down();

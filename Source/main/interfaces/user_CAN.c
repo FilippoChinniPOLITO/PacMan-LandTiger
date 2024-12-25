@@ -1,10 +1,19 @@
 #include "user_CAN.h"
 
 
+/* (Private) User Imports */
+
+#include "../pacman/pacman_view.h"
+
+
+/* (Private) File-Scope Global Variables */
+
 static unsigned char prev_stat_time;
 static unsigned short prev_stat_score;
 static unsigned char prev_stat_lives;
 
+
+/* Functions Implementations */
 
 void interrupt_CAN_write_stat(unsigned char data_array[8]) {
 	unsigned char stat_time;
@@ -17,7 +26,7 @@ void interrupt_CAN_write_stat(unsigned char data_array[8]) {
 	stat_score = (data_array[2] << 8);
 	stat_score |= data_array[3];
 	
-	// Update
+	// Work
 	if(stat_time != prev_stat_time) {
 		prev_stat_time = stat_time;
 		draw_stat_time(stat_time);

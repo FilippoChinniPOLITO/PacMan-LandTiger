@@ -20,9 +20,6 @@
 #include "LPC17xx.h"
 
 
-#include "../main/user_CAN.h"
-
-
 #define STANDARD_FORMAT  0
 #define EXTENDED_FORMAT  1
 

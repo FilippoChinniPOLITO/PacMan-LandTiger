@@ -1,14 +1,23 @@
 #include "pacman_init.h"
 
 
-/* (Private) Function Prototypes */
+/* (Private) Hardware Imports */
+
+//#include "../interfaces/hw_abstraction.h"		// Transitive Import
+
+
+/* (Private) User Imports */
+
+#include "pacman_core.h"
+#include "pacman_ctrl.h"
+//#include "pacman_utils.h"		// Transitive Import
+
+
+/* (Private) Functions Prototypes */
 
 void init_main_timer();
 void init_game_timings();
 unsigned char calculate_blinky_acceleration_steps();
-
-
-/* (Private) Constants Definitions */
 
 
 /* Function Implementations */
@@ -25,7 +34,7 @@ void init_game() {
 }
 
 void init_main_timer() {
-	init_timer(0, 0, 0, 3, GAME_TIMINGS.pacman_speed_timer_count);
+	HW_TIMER_init_timer(0, 0, 0, 3, GAME_TIMINGS.pacman_speed_timer_count);
 }
 
 void init_game_timings() {
@@ -41,3 +50,4 @@ unsigned char calculate_blinky_acceleration_steps() {
 	const unsigned short tot_time_ticks = seconds_to_ticks((float) GAME_CONFIG.max_time);
 	return (tot_time_ticks / (accel_steps+1));
 }
+

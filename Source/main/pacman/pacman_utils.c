@@ -1,17 +1,25 @@
 #include "pacman_utils.h"
 
 
-/* (Private) Function Prototypes */
+/* (Private) System Imports */
 
-void copy_map(GameMap* dest, GameMap* source);
+#include <stdio.h>
+#include <string.h>
+
+
+/* (Private) Hardware Imports */
+
+//#include "../interfaces/hw_abstraction.h"		// Transitive Import
+
+
+/* (Private) User Imports */
+
+#include "pacman_core.h"
 
 
 /* (Private) Constants Definitions */
 
-
-/* Global Variables */
-
-GameMap map_1 = {
+const GameMap map_1 = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 4, 4, 4, 4, 4, 4, 0, 0, 0, 1, 1, 4, 4, 4, 4, 1, 1, 0, 0, 0, 4, 4, 4, 4, 4, 4, 1},
 	{1, 4, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 4, 1, 1, 4, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 4, 1},
@@ -45,7 +53,7 @@ GameMap map_1 = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
-GameMap map_2 = {
+const GameMap map_2 = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
 	{1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1},
@@ -79,7 +87,7 @@ GameMap map_2 = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
-GameMap map_3 = {
+const GameMap map_3 = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
 	{1, 4, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 4, 1},
@@ -114,7 +122,12 @@ GameMap map_3 = {
 };
 
 
-/* Function Implementations */
+/* (Private) Functions Prototypes */
+
+void copy_map(GameMap* dest, const GameMap* source);
+
+
+/* Functions Implementations */
 
 void get_game_map(GameMap* map_to_init, const short map_id) {
 	switch(map_id) {
@@ -133,7 +146,7 @@ void get_game_map(GameMap* map_to_init, const short map_id) {
 	}
 }
 
-void copy_map(GameMap* dest, GameMap* source) {
+void copy_map(GameMap* dest, const GameMap* source) {
 	memcpy(dest, source, sizeof(GameMap));	
 }
 
@@ -150,49 +163,21 @@ Position get_pacman_spawn(const short map_id) {
 		}
 }
 
-void toggle_timer(uint8_t timer_num) {
-	if ( timer_num == 0 )
-	{
-		LPC_TIM0->TCR = !LPC_TIM0->TCR;
-	}
-	else if (timer_num == 1)
-	{
-		LPC_TIM1->TCR = !LPC_TIM1->TCR;
-	}
-	else if (timer_num == 2)
-	{
-		LPC_TIM2->TCR = !LPC_TIM2->TCR;
-	}
-	else //if (timer_num == 3)
-	{
-		LPC_TIM3->TCR = !LPC_TIM3->TCR;
-	}
-	return;
+unsigned int speed_to_timer_count(unsigned char speed_value) {
+	return seconds_to_timer_count(TICK_SPEED_CONV * ((TICK_SECOND_RATIO * 2) - speed_value));
 }
 
-unsigned int get_timer_value(uint8_t timer_num) {
-	if ( timer_num == 0 )
-	{
-		return LPC_TIM0->TC;
-	}
-	else if (timer_num == 1)
-	{
-		return LPC_TIM1->TC;
-	}
-	else if (timer_num == 2)
-	{
-		return LPC_TIM2->TC;
-	}
-	else //if (timer_num == 3)
-	{
-		return LPC_TIM3->TC;
-	}
+unsigned int seconds_to_timer_count(float seconds) {
+	return ((unsigned int) (seconds * SYSTEM_FREQUENCY));
 }
 
-unsigned int get_RIT_value() {
-	return LPC_RIT->RICOUNTER;
+unsigned char seconds_to_ticks(float seconds) {
+	return ((unsigned char) (seconds / TICK_DURATION));
 }
 
+float ticks_to_seconds(unsigned char ticks) {
+	return (((float) ticks) * TICK_DURATION);
+}
 
 
 /*
