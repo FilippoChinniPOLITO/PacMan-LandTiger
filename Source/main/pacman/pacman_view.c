@@ -22,7 +22,8 @@ typedef enum {
 	STYLE_FULL		= 0,
 	STYLE_BORDER	= 1,
 	STYLE_CIRCLE	= 2,
-	STYLE_PACMAN   	= 3
+	STYLE_PACMAN   	= 3,
+	STYLE_BLINKY	= 4
 } FillStyle;
 
 
@@ -47,11 +48,11 @@ void draw_empty(Position pos);
 void draw_wall(Position pos);
 void draw_standard_pill(Position pos);
 void draw_special_pill(Position pos);
-void draw_pacman(Position pos);
 void draw_full_line(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color);
 void draw_border_line(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color);
 void draw_circle(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color);
 void draw_pacman_model(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color, Direction orientation, unsigned char animation_frame);
+void draw_blinky_model(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color, Direction orientation, unsigned char animation_frame);
 void generic_fill_cell(Position pos, unsigned short color, unsigned char fill_style);
 void generic_fill_cell_with_reduction(Position pos, unsigned char reduction, unsigned short color, FillStyle fill_style);
 void generic_write(unsigned short x_start, unsigned short y_start, char* string, unsigned short color, unsigned short color_background);
@@ -177,9 +178,6 @@ void draw_cell(CellType cell_type, Position cell_pos) {
 		case CELL_SPC_PILL:
 			draw_special_pill(cell_pos);
 			break;
-		case CELL_PACMAN:
-			draw_pacman(cell_pos);
-			break;
 		default:
 			draw_empty(cell_pos);
 			break;
@@ -200,10 +198,6 @@ void draw_standard_pill(Position pos) {
 
 void draw_special_pill(Position pos) {
 	generic_fill_cell_with_reduction(pos, 1, COL_LIME, STYLE_CIRCLE);
-}
-
-void draw_pacman(Position pos) {
-	generic_fill_cell_with_reduction(pos, 1, COL_YELLOW, STYLE_PACMAN);
 }
 
 void generic_fill_cell(Position pos, unsigned short color, FillStyle fill_style) {
@@ -234,6 +228,9 @@ void generic_fill_cell_with_reduction(Position pos, unsigned char reduction, uns
 			break;
 		case(STYLE_PACMAN):
 			draw_pacman_model(x_display_start, y_display_start, x_display_end, y_display_end, color, game_run.pacman.direction, game_run.pacman.animation_frame);
+			break;
+		case(STYLE_BLINKY):
+			draw_blinky_model(x_display_start, y_display_start, x_display_end, y_display_end, color, game_run.blinky.direction, game_run.blinky.animation_frame);
 			break;
 	}
 }
@@ -272,6 +269,10 @@ void draw_circle(unsigned short x_start, unsigned short y_start, unsigned short 
 		HW_DISPLAY_LCD_DrawLine(x_start+i, (y_start + radius - i), x_end-i, (y_start + radius - i), color);
 		HW_DISPLAY_LCD_DrawLine(x_start+i, (y_start + radius + i + is_even), x_end-i, (y_start + radius + i + is_even), color);
 	}
+}
+
+void draw_pacman(Position pos) {
+	generic_fill_cell_with_reduction(pos, 1, COL_YELLOW, STYLE_PACMAN);
 }
 
 void draw_pacman_model(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color, Direction orientation, unsigned char animation_frame) {
@@ -375,6 +376,79 @@ void draw_pacman_model(unsigned short x_start, unsigned short y_start, unsigned 
 				HW_DISPLAY_LCD_DrawLine(x_end-0, y_start+5, x_end-1, y_start+5, color);
 				HW_DISPLAY_LCD_SetPoint(x_end-1, y_start+2, COL_BLACK);
 			}
+			break;
+	}
+}
+
+void draw_blinky(Position pos) {
+	generic_fill_cell_with_reduction(pos, 1, COL_RED, STYLE_BLINKY);
+}
+
+void draw_blinky_model(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color, Direction orientation, unsigned char animation_frame) {
+	// Expects the Input to form a 7*7 Square
+	
+	const unsigned short color_body = (game_status.is_ghosts_weak) ? COL_BLUE : color;
+	const unsigned short color_eyes = (game_status.is_ghosts_weak) ? COL_PINK : COL_CYAN;
+	
+	animation_frame = (animation_frame >= 2);	//A Frame lasts 2 Ticks (to make the animation more visible, expecially on physical board)
+	
+	//Main Body
+	HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+0, x_end-1, y_start+0, color_body);
+	
+	HW_DISPLAY_LCD_SetPoint(x_start+0, y_start+1, color_body);
+	HW_DISPLAY_LCD_SetPoint(x_start+3, y_start+1, color_body);
+	HW_DISPLAY_LCD_SetPoint(x_start+6, y_start+1, color_body);
+	
+	HW_DISPLAY_LCD_SetPoint(x_start+0, y_start+2, color_body);
+	HW_DISPLAY_LCD_SetPoint(x_start+3, y_start+2, color_body);
+	HW_DISPLAY_LCD_SetPoint(x_start+6, y_start+2, color_body);
+	
+	HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+3, x_end-0, y_start+3, color_body);
+	HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+4, x_end-0, y_start+4, color_body);
+	
+	//Lower Body
+	if(animation_frame == 0) {
+		HW_DISPLAY_LCD_SetPoint(x_start+0, y_start+5, color_body);
+		HW_DISPLAY_LCD_DrawLine(x_start+2, y_start+5, x_end-2, y_start+5, color_body);
+		HW_DISPLAY_LCD_SetPoint(x_end-0, y_start+5, color_body);
+		
+		HW_DISPLAY_LCD_SetPoint(x_start+0, y_start+6, color_body);
+		HW_DISPLAY_LCD_SetPoint(x_start+2, y_start+6, color_body);
+		HW_DISPLAY_LCD_SetPoint(x_end-2, y_start+6, color_body);
+		HW_DISPLAY_LCD_SetPoint(x_end-0, y_start+6, color_body);
+	}
+	else if(animation_frame == 1) {
+		HW_DISPLAY_LCD_DrawLine(x_start+0, y_start+5, x_start+2, y_start+5, color_body);
+		HW_DISPLAY_LCD_DrawLine(x_end-2, y_start+5, x_end-0, y_start+5, color_body);
+		
+		HW_DISPLAY_LCD_SetPoint(x_start+0, y_start+6, color_body);
+		HW_DISPLAY_LCD_SetPoint(x_start+2, y_start+6, color_body);
+		HW_DISPLAY_LCD_SetPoint(x_end-2, y_start+6, color_body);
+		HW_DISPLAY_LCD_SetPoint(x_end-0, y_start+6, color_body);
+	}
+	
+	//Eyes
+	HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+1, x_start+2, y_start+1, COL_WHITE);
+	HW_DISPLAY_LCD_DrawLine(x_start+4, y_start+1, x_start+5, y_start+1, COL_WHITE);
+	HW_DISPLAY_LCD_DrawLine(x_start+1, y_start+2, x_start+2, y_start+2, COL_WHITE);
+	HW_DISPLAY_LCD_DrawLine(x_start+4, y_start+2, x_start+5, y_start+2, COL_WHITE);
+	switch(orientation) {
+		case(DIRECTION_STILL):
+		case(DIRECTION_RIGHT):
+			HW_DISPLAY_LCD_SetPoint(x_start+2, y_start+animation_frame+1, color_eyes);
+			HW_DISPLAY_LCD_SetPoint(x_start+5, y_start+animation_frame+1, color_eyes);
+			break;
+		case(DIRECTION_LEFT):
+			HW_DISPLAY_LCD_SetPoint(x_start+1, y_start+animation_frame+1, color_eyes);
+			HW_DISPLAY_LCD_SetPoint(x_start+4, y_start+animation_frame+1, color_eyes);
+			break;
+		case(DIRECTION_UP):
+			HW_DISPLAY_LCD_SetPoint(x_start+1+animation_frame, y_start+1, color_eyes);
+			HW_DISPLAY_LCD_SetPoint(x_start+4+animation_frame, y_start+1, color_eyes);
+			break;
+		case(DIRECTION_DOWN):
+			HW_DISPLAY_LCD_SetPoint(x_start+1+animation_frame, y_start+2, color_eyes);
+			HW_DISPLAY_LCD_SetPoint(x_start+4+animation_frame, y_start+2, color_eyes);
 			break;
 	}
 }

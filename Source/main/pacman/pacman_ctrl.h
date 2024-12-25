@@ -9,10 +9,11 @@
 
 /* (Public) Functions Prototypes */
 
-void handle_level_init(unsigned short is_first_init);
+void handle_level_init();
 void handle_pause();
 void handle_direction_change(Direction new_direction);
 void handle_next_tick();
+void handle_blinky_move();
 
 void handle_play_full_sound();
 void handle_play_single_sound();

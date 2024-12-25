@@ -13,7 +13,7 @@ void interrupt_timer_0_next_tick() {
 }
 
 void interrupt_timer_1_move_blinky() {
-	// TODO
+	handle_blinky_move();
 }
 
 void interrupt_timer_2_play_sound() {

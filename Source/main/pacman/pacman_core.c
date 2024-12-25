@@ -13,12 +13,13 @@ const GameConfig GAME_CONFIG = {
 	.spc_pill_count = 6,
 	.std_pill_value = 10,
 	.spc_pill_value = 50,
+	.ghost_eat_value = 100,
 	.pacman_speed = PACMAN_SPEED,
 	.blinky_min_speed = 4,
 	.blinky_max_speed = 7,
-	.spc_pill_gen_ratio = 3,
-	.blinky_respawn_time = 3,
-	.blinky_blue_time = 10
+	.spc_pill_gen_ratio = 5,
+	.ghost_respawn_time = 3,
+	.ghost_weak_time = 10
 };
 
 GameTimings GAME_TIMINGS;

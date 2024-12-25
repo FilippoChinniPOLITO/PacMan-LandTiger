@@ -78,8 +78,12 @@ typedef enum {
 	CELL_TP_R		= 3,	// Teleport Area Right
     CELL_STD_PILL 	= 4,	// Pill
     CELL_SPC_PILL 	= 5,	// Special Pill
-    CELL_PACMAN 	= 6		// PacMan
 } CellType;
+
+typedef enum {
+	CHAR_PACMAN		= 0,	// Pacman
+	CHAR_BLINKY		= 1		// Blinky
+} CharacterType;
 
 typedef unsigned char GameMap[MAP_HEIGTH][MAP_WIDTH];
 
@@ -93,7 +97,7 @@ typedef struct {
 	Position prev_pos;
 	Direction direction;
 	unsigned char animation_frame;
-} Pacman;
+} Character;
 
 typedef struct {
 	unsigned char map_id;				// ID of selected Game Map
@@ -105,19 +109,20 @@ typedef struct {
     unsigned char spc_pill_count;		// Number of Special Pills
 	unsigned short std_pill_value;		// Score Points of a Standard Pill
 	unsigned short spc_pill_value;		// Score Points of a Special Pill
+	unsigned short ghost_eat_value;		// Score Points of eating a Ghost
 	unsigned char pacman_speed;			// Pacman movement speed
 	unsigned char blinky_min_speed;		// Blinky start movement speed
 	unsigned char blinky_max_speed;		// Blinky max (final) movement speed
 	unsigned char spc_pill_gen_ratio;	// Generation Ratio of Special Pills (in Ticks)
-	unsigned char blinky_respawn_time;	// Blinky Respawn Time (in Seconds)
-	unsigned char blinky_blue_time;		// Blinky Vulnerability Time (in Seconds)
+	unsigned char ghost_respawn_time;	// Respawn Time of Ghosts (in Seconds)
+	unsigned char ghost_weak_time;		// Vulnerability Time of Ghosts (in Seconds)
 } GameConfig;
 
 typedef struct {
 	unsigned int pacman_speed_timer_count;		// Timer count value to set Pacman Speed
 	unsigned int blinky_speed_timer_count;		// Timer count value to set Blinky Speed
-	unsigned short blinky_respawn_ticks;		// Blinky Respawn Time (in Ticks)
-	unsigned short blinky_blue_ticks;			// Blinky Vulnerability Time (in Ticks)
+	unsigned short ghost_respawn_ticks;			// Ghosts Respawn Time (in Ticks)
+	unsigned short ghost_weak_ticks;			// Ghosts Vulnerability Time (in Ticks)
 	unsigned short blinky_accel_interval_ticks;	// Blinky Acceleration Interval Step Time (in Ticks)
 } GameTimings;
 
@@ -127,7 +132,8 @@ typedef struct {
 	unsigned char lives;			// Current Lives of the Player
 	unsigned short score;			// Current Score of the Player
 	unsigned char pills_left;		// Number of Pills Left
-	Pacman pacman;					// PacMan Position and Attributes
+	Character pacman;				// PacMan Position and Attributes
+	Character blinky;				// Blinky Position and Attributes
 } GameRunning;
 
 typedef struct {
@@ -137,7 +143,7 @@ typedef struct {
 	unsigned char spc_pills_gen;	// Number of Special Pills Generated
 	unsigned char blinky_curr_speed;// State of Blinky (Current Speed)
 	unsigned char is_blinky_dead;	// State of Blinky (Dead or Alive)
-	unsigned char is_blinky_blue;	// State of Blinky (Vulnerable or Normal)
+	unsigned char is_ghosts_weak;	// State of Ghosts (Vulnerable or Normal)
 } GameStatus;
 
 

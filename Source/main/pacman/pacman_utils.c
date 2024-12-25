@@ -129,7 +129,7 @@ void copy_map(GameMap* dest, const GameMap* source);
 
 /* Functions Implementations */
 
-void get_game_map(GameMap* map_to_init, const short map_id) {
+void get_game_map(GameMap* map_to_init, const unsigned char map_id) {
 	switch(map_id) {
 		case(1):
 			copy_map(map_to_init, &map_1);
@@ -150,7 +150,20 @@ void copy_map(GameMap* dest, const GameMap* source) {
 	memcpy(dest, source, sizeof(GameMap));	
 }
 
-Position get_pacman_spawn(const short map_id) {
+Position get_pacman_spawn(const unsigned char map_id) {
+	switch(map_id) {
+		case(1):	
+			return (Position) {.y=20, .x=11};
+		case(2):
+			return (Position) {.y=28, .x=9};
+		case(3):
+			return (Position) {.y=17, .x=13};
+		default:
+			return (Position) {.y=20, .x=11};
+		}
+}
+
+Position get_blinky_spawn(const unsigned char map_id) {
 	switch(map_id) {
 		case(1):	
 			return (Position) {.y=14, .x=14};
@@ -171,8 +184,8 @@ unsigned int seconds_to_timer_count(float seconds) {
 	return ((unsigned int) (seconds * SYSTEM_FREQUENCY));
 }
 
-unsigned char seconds_to_ticks(float seconds) {
-	return ((unsigned char) (seconds / TICK_DURATION));
+unsigned short seconds_to_ticks(unsigned short seconds) {
+	return ((unsigned short) (seconds / TICK_DURATION));
 }
 
 float ticks_to_seconds(unsigned char ticks) {

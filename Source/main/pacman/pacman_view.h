@@ -36,6 +36,8 @@ void draw_screen_victory();
 void draw_screen_game_over();
 void draw_screen_fail();
 void draw_cell(CellType cell_type, Position pos);
+void draw_pacman(Position pos);
+void draw_blinky(Position pos);
 
 
 
