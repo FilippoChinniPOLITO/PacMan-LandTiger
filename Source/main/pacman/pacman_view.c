@@ -20,10 +20,11 @@
 
 typedef enum {
 	STYLE_FULL		= 0,
-	STYLE_BORDER	= 1,
-	STYLE_CIRCLE	= 2,
-	STYLE_PACMAN   	= 3,
-	STYLE_BLINKY	= 4
+	STYLE_LINE		= 1,
+	STYLE_BORDER	= 2,
+	STYLE_CIRCLE	= 3,
+	STYLE_PACMAN   	= 4,
+	STYLE_BLINKY	= 5
 } FillStyle;
 
 
@@ -48,6 +49,7 @@ void draw_empty(Position pos);
 void draw_wall(Position pos);
 void draw_standard_pill(Position pos);
 void draw_special_pill(Position pos);
+void draw_cage_gate(Position pos);
 void draw_full_line(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color);
 void draw_border_line(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color);
 void draw_circle(unsigned short x_start, unsigned short y_start, unsigned short x_end, unsigned short y_end, unsigned short color);
@@ -179,6 +181,9 @@ void draw_cell(CellType cell_type, Position cell_pos) {
 			draw_empty(cell_pos); 	//This is to fix the "Lingering Blinky Bug"; it is bad, but is the easiest fix
 			draw_special_pill(cell_pos);
 			break;
+		case CELL_CAGE_GATE:
+			draw_cage_gate(cell_pos);
+			break;
 		default:
 			draw_empty(cell_pos);
 			break;
@@ -194,11 +199,15 @@ void draw_wall(Position pos) {
 }
 
 void draw_standard_pill(Position pos) {
-	generic_fill_cell_with_reduction(pos, 3, COL_PINK, STYLE_CIRCLE);
+	generic_fill_cell_with_reduction(pos, 3, COL_OCHRE, STYLE_CIRCLE);
 }
 
 void draw_special_pill(Position pos) {
 	generic_fill_cell_with_reduction(pos, 1, COL_LIME, STYLE_CIRCLE);
+}
+
+void draw_cage_gate(Position pos) {
+	generic_fill_cell_with_reduction(pos, 3, COL_PINK, STYLE_LINE);
 }
 
 void generic_fill_cell(Position pos, unsigned short color, FillStyle fill_style) {
@@ -220,6 +229,9 @@ void generic_fill_cell_with_reduction(Position pos, unsigned char reduction, uns
 	switch(fill_style) {
 		case(STYLE_FULL):
 			draw_full_line(x_display_start, y_display_start, x_display_end, y_display_end, color);
+			break;
+		case(STYLE_LINE):
+			draw_full_line(x_display_start-reduction, y_display_start, x_display_end+reduction, y_display_end, color);
 			break;
 		case(STYLE_BORDER):
 			draw_border_line(x_display_start, y_display_start, x_display_end, y_display_end, color);

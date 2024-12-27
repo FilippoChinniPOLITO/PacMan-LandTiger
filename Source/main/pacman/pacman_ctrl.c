@@ -246,7 +246,7 @@ void handle_blinky_move() {
 void handle_character_update(Character* character, Position next_pos, unsigned char* prev_cell, unsigned char* next_cell, CharacterType character_type) {
 	character->prev_pos = character->curr_pos;
 	
-	if(*next_cell != CELL_WALL)
+	if((*next_cell != CELL_WALL) && (*next_cell != CELL_CAGE_GATE))
 		character->curr_pos = next_pos;
 	
 	update_character_animation(character);
@@ -283,7 +283,10 @@ Direction calculate_blinky_direction(Character blinky, Character pacman) {
 	for(i=1; i<=4; i++) {
 		i_pos = candidate_moves[i-1];
 		
-		if(game_run.game_map[i_pos.y][i_pos.x] == CELL_WALL || position_equals(i_pos, blinky.prev_pos)) {
+		if (game_run.game_map[i_pos.y][i_pos.x] == CELL_WALL ||
+			game_run.game_map[i_pos.y][i_pos.x] == CELL_CAGE_GATE ||
+			position_equals(i_pos, blinky.prev_pos)
+		) {
 			continue;
 		}
 		
@@ -326,7 +329,7 @@ unsigned char calculate_manhattan_distance(Position pos1, Position pos2) {
 unsigned char calculate_euclidean_distance(Position pos1, Position pos2) {
 	short dx = pos1.x - pos2.x;
 	short dy = pos1.y - pos2.y;
-	return sqrt((dx*dx) + (dy*dy));
+	return sqrtf((dx*dx) + (dy*dy));
 }
 
 Position calculate_next_position(Character character) {

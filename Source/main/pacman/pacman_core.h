@@ -78,6 +78,7 @@ typedef enum {
 	CELL_TP_R		= 3,	// Teleport Area Right
     CELL_STD_PILL 	= 4,	// Pill
     CELL_SPC_PILL 	= 5,	// Special Pill
+	CELL_CAGE_GATE	= 6		// Cage Gate
 } CellType;
 
 typedef enum {

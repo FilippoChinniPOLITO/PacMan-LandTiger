@@ -20,6 +20,7 @@
 #define COL_PINK	0xfefb
 #define COL_ORANGE	0xfd43
 #define COL_LIME	0xbfec
+#define COL_OCHRE	0xff30
 
 
 /* (Public) Functions Prototypes */
