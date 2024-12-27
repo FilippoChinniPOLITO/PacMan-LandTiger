@@ -19,8 +19,8 @@
 #define SOUND_UPTICKS			1
 
 #if (IS_SIMULATOR == 1)
-	#define SOUND_SPEEDUP 		1.6f
-	#define SOUND_AMPLIFIER		3
+	#define SOUND_SPEEDUP 		1.4f
+	#define SOUND_AMPLIFIER		2
 #else
 	#define SOUND_SPEEDUP 		1.0f
 	#define SOUND_AMPLIFIER		1
@@ -48,26 +48,42 @@ typedef enum {
 } NoteDuration;
 
 typedef enum {
-	a2b = 5351 * SOUND_AMPLIFIER,	// 103Hz	k=5351 a2b
-	b2	= 4500 * SOUND_AMPLIFIER,	// 123Hz	k=4500 b2
-	c3b	= 4370 * SOUND_AMPLIFIER,	// 127Hz	k=4370 c3b
-	c3	= 4240 * SOUND_AMPLIFIER,	// 131Hz	k=4240 c3
-	d3	= 3779 * SOUND_AMPLIFIER,	// 147Hz	k=3779 d3
-	e3	= 3367 * SOUND_AMPLIFIER,	// 165Hz	k=3367 e3
-	f3	= 3175 * SOUND_AMPLIFIER,	// 175Hz	k=3175 f3
-	g3	= 2834 * SOUND_AMPLIFIER,	// 196Hz	k=2834 g3
-	a3b	= 2670 * SOUND_AMPLIFIER,	// 208Hz	k=2670 a4b
-	a3	= 2525 * SOUND_AMPLIFIER,	// 220Hz	k=2525 a3
-	b3	= 2249 * SOUND_AMPLIFIER,	// 247Hz	k=2249 b3
-	c4	= 2120 * SOUND_AMPLIFIER,	// 262Hz	k=2120 c4
-	d4	= 1890 * SOUND_AMPLIFIER,	// 294Hz	k=1890 d4
-	e4	= 1684 * SOUND_AMPLIFIER,	// 330Hz	k=1684 e4
-	f4	= 1592 * SOUND_AMPLIFIER,	// 349Hz	k=1592 f4
-	g4	= 1417 * SOUND_AMPLIFIER,	// 392Hz	k=1417 g4
-	a4	= 1263 * SOUND_AMPLIFIER,	// 440Hz	k=1263 a4
-	b4	= 1125 * SOUND_AMPLIFIER,	// 494Hz	k=1125 b4
-	c5	= 1062 * SOUND_AMPLIFIER,	// 523Hz	k=1062 c5
-	pause = 0						// DO NOT SOUND
+	// k = SYSTEM_FREQUENCY / (NOTE_FREQ * 45)
+	c2	= 8547,		// 065Hz	k=0000	c2
+	d2	= 7610,		// 073Hz	k=0000	d2
+	e2	= 6775,		// 082Hz	k=0000	e2
+	f2	= 6386,		// 087Hz	k=0000	f2
+	g2	= 5669,		// 098Hz	k=0000	g2
+	a2b = 5351,		// 103Hz	k=5351	a2b
+	b2	= 4500,		// 123Hz	k=4500	b2
+	c3b = 4370,		// 127Hz	k=4370	c3b
+	c3	= 4240,		// 131Hz	k=4240	c3
+	c3s = 3996,		// 139Hz	k=3996	c3s
+	d3	= 3779,		// 147Hz	k=3779	d3
+	e3	= 3367,		// 165Hz	k=3367	e3
+	f3	= 3175,		// 175Hz	k=3175	f3
+	f3s	= 3003,		// 185Hz    k=3003	f3s
+	g3	= 2834,		// 196Hz	k=2834	g3
+	a3b	= 2670,		// 208Hz	k=2670	a3b
+	a3	= 2525,		// 220Hz	k=2525	a3
+	a3s	= 2384,		// 233Hz    k=2384	a3s
+	b3	= 2249,		// 247Hz	k=2249	b3
+	c4	= 2120,		// 262Hz	k=2120	c4
+	c4s	= 2005,		// 277Hz    k=2005	c4s
+	d4	= 1890,		// 294Hz	k=1890	d4
+	e4	= 1684,		// 330Hz	k=1684	e4
+	f4	= 1592,		// 349Hz	k=1592	f4
+	g4	= 1417,		// 392Hz	k=1417	g4
+	a4	= 1263,		// 440Hz	k=1263	a4
+	b4	= 1125,		// 494Hz	k=1125	b4
+	c5	= 1062,		// 523Hz	k=1062	c5
+	d5	= 946 ,		// 587Hz	k=945	d5
+	e5	= 843 ,		// 659Hz	k=842	e5
+	f5	= 796 ,		// 698Hz	k=796	f5
+	g5	= 709 ,		// 784Hz	k=708	g5
+	a5	= 631 ,		// 880Hz	k=631	a5
+	b5	= 562 ,		// 988Hz	k=562	b5
+	pause = 0		// No Sound
 } NoteFrequency;
 
 typedef struct {
@@ -75,69 +91,171 @@ typedef struct {
 	NoteDuration duration;
 } Note;
 
+typedef struct {
+	SoundID id;					// ID of the Sound
+	const Note* note_list;		// Pointer to the Array of Notes and Notes Durations
+	unsigned char size;			// Size of the Array of Notes and Notes Durations
+	unsigned char is_loop;		// Type of the Sound (to play or not in a loop)
+} Sound;
+
 
 /* (Private) Constants Definitions - Full Sounds */
 
-const unsigned char PACMAN_SOUNDTRACK_SIZE = 48;	// for Optimization
-const Note PACMAN_SOUNDTRACK[] = {
-	// 1
-	{d3, time_semicroma},
-	{d3, time_semicroma},
-	{d4, time_croma},
-	{a3, time_croma},
-	{pause, time_semicroma},
-	{a3b, time_semicroma},
-	{pause, time_semicroma},
-	{g3, time_croma},
-	{f3, time_semicroma*2},
-	{d3, time_semicroma},
-	{f3, time_semicroma},
-	{g3, time_semicroma},
-	// 2
-	{c3, time_semicroma},
-	{c3, time_semicroma},
-	{d4, time_croma},
-	{a3, time_croma},
-	{pause, time_semicroma},
-	{a3b, time_semicroma},
-	{pause, time_semicroma},
-	{g3, time_croma},
-	{f3, time_semicroma*2},
-	{d3, time_semicroma},
-	{f3, time_semicroma},
-	{g3, time_semicroma},
-	// 3
-	{c3b, time_semicroma},
-	{c3b, time_semicroma},
-	{d4, time_croma},
-	{a3, time_croma},
-	{pause, time_semicroma},
-	{a3b, time_semicroma},
-	{pause, time_semicroma},
-	{g3, time_croma},
-	{f3, time_semicroma*2},
-	{d3, time_semicroma},
-	{f3, time_semicroma},
-	{g3, time_semicroma},
-	// 4
-	{a2b, time_semicroma},
-	{a2b, time_semicroma},
-	{d4, time_croma},
-	{a3, time_croma},
-	{pause, time_semicroma},
-	{a3b, time_semicroma},
-	{pause, time_semicroma},
-	{g3, time_croma},
-	{f3, time_semicroma*2},
-	{d3, time_semicroma},
-	{f3, time_semicroma},
-	{g3, time_semicroma},
-	// 5	
+const Note S_PACMAN_SOUNDTRACK[] = {
+    {c3,	time_semicroma},
+	{pause,	time_semicroma},
+	{c4,	time_semicroma},
+	{pause,	time_semicroma},
+	{g3,	time_semicroma},
+	{pause,	time_semicroma},
+	{e3,	time_semicroma},
+	{pause,	time_semicroma},
+	{c4,	time_semicroma},
+	{g3,	time_semicroma},
+	{pause,	time_croma},
+	{e3,	time_croma},
+	{pause,	time_croma},
+	{c3s,	time_semicroma},
+	{pause,	time_semicroma},
+	{c4s,	time_semicroma},
+	{pause,	time_semicroma},
+	{a3b,	time_semicroma},
+	{pause,	time_semicroma},
+	{f3,	time_semicroma},
+	{pause,	time_semicroma},
+	{c4s,	time_semicroma},
+	{a3b,	time_semicroma},
+	{pause,	time_croma},
+	{f3,	time_croma},
+	{pause,	time_croma},
+	{c3,	time_semicroma},
+	{pause,	time_semicroma},
+	{c4,	time_semicroma},
+	{g3,	time_semicroma},
+	{pause,	time_semicroma},
+	{e3,	time_semicroma},
+	{pause,	time_semicroma},
+	{c4,	time_semicroma},
+	{g3,	time_semicroma},
+	{pause,	time_croma},
+	{e3,	time_croma},
+	{pause,	time_croma},
+	{e3,	time_semicroma},
+	{f3,	time_semicroma},
+	{f3s,	time_semicroma},
+	{pause,	time_semicroma},
+	{f3s,	time_semicroma},
+	{g3,	time_semicroma},
+	{a3b,	time_semicroma},
+	{pause,	time_semicroma},
+	{a3b,	time_semicroma},
+	{a3,	time_semicroma},
+	{a3s,	time_semicroma},
+	{pause,	time_semicroma},
+	{c4,	time_croma},
+	{pause,	time_minima},
+};
+
+const Note S_EAT_SPC_PILL[] = {
+	{c4,	time_croma},
+	{e4,	time_croma},
+	{c4,	time_croma},
+	{pause,	time_croma},
+	{c4,	time_croma},
+	{e4,	time_croma},
+	{c4,	time_croma},
+	{pause,	time_croma},
+	{c4,	time_croma},
+	{e4,	time_croma},
+	{c4,	time_croma},
+	{pause,	time_croma},
+	{pause,	time_minima},
+};
+
+const Note S_EAT_GHOST[] = {
+	{e4,	time_semiminima},
+	{d4,	time_semiminima},
+	{c4,	time_semiminima},
+	{b3,	time_semiminima},
+	{a3,	time_semiminima},
+	{g3,	time_semiminima},
+	{pause,	time_semiminima},
+	{e4,	time_semiminima},
+	{d4,	time_semiminima},
+	{c4,	time_semiminima},
+	{b3,	time_semiminima},
+	{a3,	time_semiminima},
+	{g3,	time_semiminima},
+	{pause,	time_semiminima},
+	{pause,	time_minima},
+};
+
+const Note S_LOSE_LIFE[] = {
+	{c3,	time_semiminima},
+	{g2,	time_semiminima},
+	{e2,	time_semiminima},
+	{c2,	time_minima},
+	{pause,	time_croma},
+	{c3,	time_semiminima},
+	{g2,	time_semiminima},
+	{e2,	time_semiminima},
+	{c2,	time_minima},
+	{pause,	time_croma},
+	{pause,	time_minima},
+};
+
+const Note S_GAME_OVER[] = {
+	{c3,	time_minima},
+	{g2,	time_minima},
+	{e2,	time_semiminima},
+	{pause,	time_semiminima},
+	{c2,	time_semibreve},
+	{c3,	time_minima},
+	{g2,	time_minima},
+	{e2,	time_semiminima},
+	{pause,	time_semiminima},
+	{c2,	time_semibreve},
+	{pause,	time_minima},
+};
+
+const unsigned char SOUNDS_LIST_SIZE = 5;
+const static Sound SOUNDS_LIST[] = {
+	{
+		.id 		= SOUND_ID_PACMAN_SOUNDTRACK,
+		.note_list 	= S_PACMAN_SOUNDTRACK,
+		.size		= 52,
+		.is_loop	= 1
+	},
+	{
+		.id 		= SOUND_ID_EAT_SPC_PILL,
+		.note_list 	= S_EAT_SPC_PILL,
+		.size		= 13,
+		.is_loop	= 0
+	},
+	{
+		.id 		= SOUND_ID_EAT_GHOST,
+		.note_list 	= S_EAT_GHOST,
+		.size		= 15,
+		.is_loop	= 0
+	},
+	{
+		.id 		= SOUND_ID_LOSE_LIFE,
+		.note_list 	= S_LOSE_LIFE,
+		.size		= 11,
+		.is_loop	= 0
+	},
+	{
+		.id 		= SOUND_ID_GAME_OVER,
+		.note_list 	= S_GAME_OVER,
+		.size		= 11,
+		.is_loop	= 1
+	}
 };
 
 
 /* (Private) Functions Prototypes */
 
+const Sound* get_sound(SoundID sound_id);
 void play_note(Note note);
 unsigned char is_note_playing();
 unsigned char is_full_sound_over(unsigned short curr_note, Note full_sound[]);
@@ -146,28 +264,51 @@ unsigned char is_full_sound_over(unsigned short curr_note, Note full_sound[]);
 /* (Private) File-Scope Global Variables */
 
 static unsigned char volume_mult = 8;
+static unsigned short current_note = 0;
+static SoundID curr_sound_playing = SOUND_ID_PACMAN_SOUNDTRACK;
+static SoundID prev_sound_playing = SOUND_ID_PACMAN_SOUNDTRACK;
 
 
 /* Functions Implementations */
 
+const Sound* get_sound(SoundID sound_id) {
+	unsigned char i;
+	for(i=0; i < SOUNDS_LIST_SIZE; i++) {
+		if(SOUNDS_LIST[i].id == sound_id) {
+			return &SOUNDS_LIST[i];
+		}
+	}
+	return &SOUNDS_LIST[0];
+}
+
+void set_sound_playing(SoundID sound_id) {
+	//prev_sound_playing = curr_sound_playing;
+	curr_sound_playing = sound_id;
+	current_note = 0;
+}
+
 void play_full_sound() {
-	static unsigned short current_note = 0;
 	static unsigned char ticks = 0;
+	
+	const Sound* sound_playing = get_sound(curr_sound_playing);
 	
 	if(!is_note_playing()) {
 		++ticks;
 		if(ticks == SOUND_UPTICKS) {
 			ticks = 0;
-			play_note(PACMAN_SOUNDTRACK[current_note++]);
+			play_note(sound_playing->note_list[current_note++]);
 		}
 	}
 	
-	//if(current_note == (sizeof(PACMAN_SOUNDTRACK) / sizeof(PACMAN_SOUNDTRACK[0]))) {
-	if(current_note == PACMAN_SOUNDTRACK_SIZE) {
-		current_note = 0;
+	if(current_note == sound_playing->size) {
+		if(sound_playing->is_loop) {
+			current_note = 0;
+		}
+		else {
+			set_sound_playing(prev_sound_playing);
+		}
 	}
 }
-
 
 void play_single_sound() {
 	static unsigned char sineticks;
@@ -176,7 +317,7 @@ void play_single_sound() {
 	current_value = SIN_TABLE[sineticks];
 	
 	//current_value -= 410;		//????
-	//current_value /= 1;			//????
+	//current_value /= 1;		//????
 	//current_value += 410;		//????
 	
 	HW_SPEAKER_emit_sound(current_value);
@@ -191,7 +332,7 @@ void play_single_sound_duration() {
 void play_note(Note note) {
 	if((note.frequency != pause) && (volume_mult != 0)) {
 		HW_TIMER_reset_timer(2);
-		HW_TIMER_init_timer(2, 0, 0, 3, note.frequency * volume_mult);
+		HW_TIMER_init_timer(2, 0, 0, 3, note.frequency * volume_mult * SOUND_AMPLIFIER);
 		HW_TIMER_enable_timer(2);
 	}
 	HW_TIMER_reset_timer(3);

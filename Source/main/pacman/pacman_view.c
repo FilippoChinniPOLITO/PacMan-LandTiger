@@ -176,6 +176,7 @@ void draw_cell(CellType cell_type, Position cell_pos) {
 			draw_standard_pill(cell_pos);
 			break;
 		case CELL_SPC_PILL:
+			draw_empty(cell_pos); 	//This is to fix the "Lingering Blinky Bug"; it is bad, but is the easiest fix
 			draw_special_pill(cell_pos);
 			break;
 		default:

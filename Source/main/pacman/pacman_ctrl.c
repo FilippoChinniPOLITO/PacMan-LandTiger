@@ -4,6 +4,7 @@
 /* (Private) System Imports */
 
 #include <stdlib.h>
+#include <math.h>
 
 
 /* (Private) Hardware Imports */
@@ -36,6 +37,9 @@ void handle_draw_pause();
 void handle_pacman_move();
 void handle_character_update(Character* character, Position next_pos, unsigned char* prev_cell, unsigned char* next_cell, CharacterType character_type);
 Direction calculate_blinky_direction(Character blinky, Character pacman);
+unsigned char calculate_special_distance(Position pos1, Position pos2);
+unsigned char calculate_manhattan_distance(Position pos1, Position pos2);
+unsigned char calculate_euclidean_distance(Position pos1, Position pos2);
 Position calculate_next_position(Character character);
 void update_character_animation(Character* character);
 unsigned char handle_tp(Position* pos, Direction direction);
@@ -50,6 +54,7 @@ void handle_pill_transformation(Position pos);
 Position generate_random_position();
 void handle_blinky_acceleration();
 unsigned char position_equals(Position pos1, Position pos2);
+void handle_change_playing_sound(SoundID sound_id);
 void handle_draw_stat_time(unsigned char time_value);
 void handle_draw_stat_score(unsigned short score_value);
 void handle_draw_stat_lives(unsigned char lives_value);
@@ -70,6 +75,8 @@ void handle_level_init() {
 	draw_game_map();
 	draw_stat_area();
 	handle_draw_pause();
+	
+	game_status.is_init_over = 1;
 }
 
 void handle_soft_level_init() {
@@ -147,6 +154,8 @@ void handle_fail() {
 		return;
 	}
 	
+	handle_change_playing_sound(SOUND_ID_LOSE_LIFE);
+	
 	HW_TIMER_toggle_timers(1, 1, 0, 0);
 	game_status.is_fail = 1;
 	
@@ -162,6 +171,7 @@ void handle_fail() {
 }
 
 void handle_game_over() {
+	handle_change_playing_sound(SOUND_ID_GAME_OVER);
 	game_status.is_end = 1;
 	HW_TIMER_toggle_timers(1, 1, 0, 0);
 	draw_screen_game_over();
@@ -176,10 +186,9 @@ void handle_victory() {
 }
 
 void handle_pause() {
-	if(game_status.is_end) {
+	if(game_status.is_end || !game_status.is_init_over) {
 		return;
 	}
-	
 	
 	HW_TIMER_toggle_timers(1, !game_status.is_blinky_dead, 0, 0);
 	
@@ -215,6 +224,10 @@ void handle_pacman_move() {
 		handle_pill_eat(*next_cell);
 		*next_cell = CELL_EMPTY;
 	}
+	
+	if(position_equals(game_run.pacman.curr_pos, game_run.blinky.curr_pos) && !game_status.is_blinky_dead) {
+		handle_pacman_ghost_collision();
+	}
 }
 
 void handle_blinky_move() {
@@ -225,7 +238,7 @@ void handle_blinky_move() {
 	
 	handle_character_update(&game_run.blinky, next_pos, prev_cell, next_cell, CHAR_BLINKY);
 	
-	if(position_equals(game_run.pacman.curr_pos, game_run.blinky.curr_pos)) {
+	if(position_equals(game_run.pacman.curr_pos, game_run.blinky.curr_pos) && !game_status.is_blinky_dead) {
 		handle_pacman_ghost_collision();
 	}
 }
@@ -251,8 +264,69 @@ void handle_character_update(Character* character, Position next_pos, unsigned c
 }
 
 Direction calculate_blinky_direction(Character blinky, Character pacman) {
-	// TODO
-	return DIRECTION_STILL;
+	const Position candidate_moves[4] = {
+		{.x = blinky.curr_pos.x+1,	.y = blinky.curr_pos.y},	//RIGHT
+		{.x = blinky.curr_pos.x-1,	.y = blinky.curr_pos.y},	//LEFT
+		{.x = blinky.curr_pos.x,	.y = blinky.curr_pos.y-1},	//UP
+		{.x = blinky.curr_pos.x,	.y = blinky.curr_pos.y+1},	//DOWN
+	};
+	
+	Direction best_direction = blinky.direction;
+	
+	unsigned char longest_distance = 0;
+	unsigned char shortest_distance = 255;
+	
+	Position i_pos;
+	unsigned char i_distance;
+	
+	unsigned char i;
+	for(i=1; i<=4; i++) {
+		i_pos = candidate_moves[i-1];
+		
+		if(game_run.game_map[i_pos.y][i_pos.x] == CELL_WALL || position_equals(i_pos, blinky.prev_pos)) {
+			continue;
+		}
+		
+		//i_distance = calculate_manhattan_distance(i_pos, pacman.curr_pos);
+		i_distance = calculate_special_distance(i_pos, pacman.curr_pos);
+		
+		if(game_status.is_ghosts_weak) {	// Frightened Mode
+			if(i_distance > longest_distance) {
+				longest_distance = i_distance;
+				best_direction = i;
+			}
+		}
+		else {								// Chase Mode
+			if(i_distance < shortest_distance) {
+				shortest_distance = i_distance;
+				best_direction = i;
+			}
+		}
+	}
+	game_run.blinky.direction = best_direction;
+	return best_direction;
+}
+
+unsigned char calculate_special_distance(Position pos1, Position pos2) {
+	const float WEIGHT_MANHATTAN = 0.5;
+	const float WEIGHT_EUCLIDEAN = 1.0f - WEIGHT_MANHATTAN;
+	
+	unsigned char manhattan = calculate_manhattan_distance(pos1, pos2);
+	unsigned char euclidean = calculate_euclidean_distance(pos1, pos2);
+	
+	return ((manhattan * WEIGHT_MANHATTAN) + (euclidean * WEIGHT_EUCLIDEAN));
+}
+
+unsigned char calculate_manhattan_distance(Position pos1, Position pos2) {
+	unsigned char add1 = abs(((short) pos1.x) - ((short) pos2.x));
+	unsigned char add2 = abs(((short) pos1.y) - ((short) pos2.y));
+	return (add1 + add2);
+}
+
+unsigned char calculate_euclidean_distance(Position pos1, Position pos2) {
+	short dx = pos1.x - pos2.x;
+	short dy = pos1.y - pos2.y;
+	return sqrt((dx*dx) + (dy*dy));
 }
 
 Position calculate_next_position(Character character) {
@@ -314,6 +388,8 @@ void handle_pacman_ghost_collision() {
 }
 
 void handle_blinky_death() {
+	handle_change_playing_sound(SOUND_ID_EAT_GHOST);
+	
 	game_status.is_blinky_dead = 1;
 	game_status.is_ghosts_weak = 0;
 	
@@ -333,6 +409,7 @@ void handle_pill_eat(CellType pill_type) {
 		handle_score_update(GAME_CONFIG.std_pill_value);
 	}
 	else if(pill_type == CELL_SPC_PILL) {
+		handle_change_playing_sound(SOUND_ID_EAT_SPC_PILL);
 		game_status.is_ghosts_weak = 1;
 		ghosts_weak_tick_count_reset_flag = 1;
 		handle_score_update(GAME_CONFIG.spc_pill_value);
@@ -417,6 +494,10 @@ void handle_play_single_sound() {
 
 void handle_play_single_sound_duration() {
 	play_single_sound_duration();
+}
+
+void handle_change_playing_sound(SoundID sound_id) {
+	set_sound_playing(sound_id);
 }
 
 

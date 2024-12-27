@@ -10,7 +10,7 @@
 /* (Public) Constants Definitions */
 
 //General (Game Optimization)
-#define PACMAN_SPEED		5				// This #define is for Optimization Purposes
+#define PACMAN_SPEED		5				// This #define is for Optimization purposes
 #define TICK_SECOND_RATIO	PACMAN_SPEED
 #define TICK_DURATION		(1.0f / TICK_SECOND_RATIO)
 #define TICK_SPEED_CONV		(TICK_DURATION / TICK_SECOND_RATIO)
@@ -137,9 +137,10 @@ typedef struct {
 } GameRunning;
 
 typedef struct {
-	unsigned char is_pause;			// State of the Game Pause
-	unsigned char is_fail;			// State of the Game Fail
-	unsigned char is_end;			// State of the Game Gameover or Victory
+	unsigned char is_init_over;		// State of the Game - Initializing or Ready
+	unsigned char is_pause;			// State of the Game - Pause
+	unsigned char is_fail;			// State of the Game - Fail
+	unsigned char is_end;			// State of the Game - Gameover or Victory
 	unsigned char spc_pills_gen;	// Number of Special Pills Generated
 	unsigned char blinky_curr_speed;// State of Blinky (Current Speed)
 	unsigned char is_blinky_dead;	// State of Blinky (Dead or Alive)

@@ -3,7 +3,6 @@
 
 /* (Private) System Imports */
 
-#include <stdio.h>
 #include <string.h>
 
 
@@ -101,17 +100,17 @@ const GameMap map_3 = {
 	{1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1},
 	{1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
 	{1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
-	{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3},
-	{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
+	{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3},
 	{1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
-	{1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
+	{1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
+	{1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 4, 4, 4, 4, 4, 4, 4, 4, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
 	{1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
 	{1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1},
 	{1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
 	{1, 4, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 4, 1},
 	{1, 4, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 4, 1},
-	{1, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 1},
+	{1, 4, 4, 4, 1, 1, 4, 0, 0, 0, 0, 0, 4, 4, 4, 4, 0, 0, 0, 0, 0, 4, 1, 1, 4, 4, 4, 1},
 	{1, 1, 1, 4, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 4, 1, 1, 1},
 	{1, 1, 1, 4, 1, 1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 1, 4, 1, 1, 1},
 	{1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 1},
@@ -157,7 +156,7 @@ Position get_pacman_spawn(const unsigned char map_id) {
 		case(2):
 			return (Position) {.y=28, .x=9};
 		case(3):
-			return (Position) {.y=17, .x=13};
+			return (Position) {.y=23, .x=8};
 		default:
 			return (Position) {.y=20, .x=11};
 		}
@@ -166,13 +165,13 @@ Position get_pacman_spawn(const unsigned char map_id) {
 Position get_blinky_spawn(const unsigned char map_id) {
 	switch(map_id) {
 		case(1):	
-			return (Position) {.y=14, .x=14};
+			return (Position) {.y=11, .x=14};
 		case(2):
-			return (Position) {.y=14, .x=14};
+			return (Position) {.y=11, .x=14};
 		case(3):
-			return (Position) {.y=14, .x=14};
+			return (Position) {.y=11, .x=14};
 		default:
-			return (Position) {.y=14, .x=14};
+			return (Position) {.y=11, .x=14};
 		}
 }
 
@@ -191,53 +190,4 @@ unsigned short seconds_to_ticks(unsigned short seconds) {
 float ticks_to_seconds(unsigned char ticks) {
 	return (((float) ticks) * TICK_DURATION);
 }
-
-
-/*
-void parse_map_file(const char *filename, GameMap game_map, short id) {
-    FILE *file = fopen(filename, "r");
-	
-    if (!file) {
-        exit(EXIT_FAILURE);
-    }
-	
-	int read_char;
-	char c;
-	unsigned char i;
-	unsigned char j;
-	unsigned char found;
-	
-    while ((read_char = fgetc(file)) != EOF) {
-		c = (char) read_char;
-		
-		if (c == ' ' || c == ',' || c == '\t' || c == '\n') {
-			continue;
-		}
-		
-		if (c == '{') {
-			j = 0;
-			continue;
-		}
-		
-		if (c == '}') {
-			i++;
-			continue;
-		}
-		
-		if (isdigit(c)) {
-			game_map[i][j] = (uint8_t) c;
-			j++;
-			continue;
-		}
-		
-        if (c == '#') {
-			if (found) {
-				break;
-			}
-			found = 1;
-        }
-	}
-	fclose(file);
-}
-*/
 
