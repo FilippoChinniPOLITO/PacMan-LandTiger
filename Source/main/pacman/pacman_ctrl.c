@@ -177,12 +177,10 @@ void handle_game_over() {
 	draw_screen_game_over();
 }
 
-void handle_victory() {
-	if(game_run.pills_left == 0) {
-		game_status.is_end = 1;
-		HW_TIMER_toggle_timers(1, 1, 0, 0);
-		draw_screen_victory();
-	}
+void handle_victory() {	
+	game_status.is_end = 1;
+	HW_TIMER_toggle_timers(1, 1, 0, 0);
+	draw_screen_victory();
 }
 
 void handle_pause() {
@@ -290,7 +288,6 @@ Direction calculate_blinky_direction(Character blinky, Character pacman) {
 			continue;
 		}
 		
-		//i_distance = calculate_manhattan_distance(i_pos, pacman.curr_pos);
 		i_distance = calculate_special_distance(i_pos, pacman.curr_pos);
 		
 		if(game_status.is_ghosts_weak) {	// Frightened Mode
@@ -419,7 +416,9 @@ void handle_pill_eat(CellType pill_type) {
 	}
 	
 	game_run.pills_left--;
-	handle_victory();
+	if(game_run.pills_left == 0) {
+		handle_victory();
+	}
 }
 
 void handle_score_update(unsigned short score_increase) {
